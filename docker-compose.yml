@@ -1,0 +1,29 @@
+﻿services:
+
+  postgres:
+    image: postgres:16-alpine
+    container_name: creditomz_postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: creditomz_user
+      POSTGRES_PASSWORD: creditomz_pass
+      POSTGRES_DB: creditomz_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - creditomz_postgres_data:/var/lib/postgresql/data
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: creditomz_pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@creditomz.com
+      PGADMIN_DEFAULT_PASSWORD: CreditoMZ_2026!
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+
+volumes:
+  creditomz_postgres_data:

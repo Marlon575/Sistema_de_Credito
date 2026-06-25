@@ -1,0 +1,850 @@
+/* ================================================================
+   css/style.css — ESTILOS GLOBAIS DO SISTEMA
+   ================================================================
+   Este ficheiro é carregado em TODAS as páginas.
+   Usamos variáveis CSS (--nome) para manter as cores consistentes.
+   Se quiseres mudar a cor principal, basta mudar numa linha só.
+   ================================================================ */
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 1: VARIÁVEIS GLOBAIS (Paleta de cores e tamanhos)
+   ---------------------------------------------------------------- */
+
+/* ":root" aplica as variáveis a toda a página */
+:root {
+
+  /* --- Cores Principais --- */
+  --primaria:        #da6200f1;   /* Laranja principal (inspirado no BCI) */
+  --primaria-escura: #fffffffd;   /* Laranja mais escuro (hover dos botões) */
+  --primaria-clara:  #FDF0EA;   /* Laranja muito claro (fundos suaves) */
+
+  /* --- Cores de Estado --- */
+  --sucesso:         #1D9E75;   /* Verde — aprovado, pago, positivo */
+  --sucesso-clara:   #E1F5EE;   /* Verde claro — fundo de badges verdes */
+  --aviso:           #BA7517;   /* Âmbar — pendente, em análise */
+  --aviso-clara:     #FAEEDA;   /* Âmbar claro — fundo de badges âmbar */
+  --perigo:          #E24B4A;   /* Vermelho — rejeitado, erro */
+  --perigo-clara:    #FCEBEB;   /* Vermelho claro — fundo de badges vermelhos */
+  --info:            #185FA5;   /* Azul — informação, links */
+  --info-clara:      #E6F1FB;   /* Azul claro — fundo de badges azuis */
+
+  /* --- Tons Neutros --- */
+  --branco:          #FFFFFF;
+  --fundo:           #F7F6F2;   /* Fundo geral da página (off-white quente) */
+  --fundo-card:      #FFFFFF;   /* Fundo dos cartões */
+  --borda:           rgba(0,0,0,0.10);  /* Cor das bordas */
+  --borda-forte:     rgba(0,0,0,0.20);  /* Bordas mais visíveis */
+
+  /* --- Texto --- */
+  --texto-primario:  #000000;   /* Texto principal (quase preto) */
+  --texto-secundario:#5F5E5A;   /* Texto secundário (cinzento médio) */
+  --texto-suave:     #888780;   /* Texto suave (labels, hints) */
+
+  /* --- Tipografia --- */
+  --fonte: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;        /* Fonte principal */
+  --fonte-mono: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;    /* Fonte para números e códigos */
+
+  /* --- Espaçamentos --- */
+  --raio:     10px;   /* Arredondamento padrão dos cantos */
+  --raio-lg:  16px;   /* Arredondamento maior (cards) */
+  --raio-xl:  24px;   /* Arredondamento extra (modais) */
+
+  /* --- Sombras --- */
+  --sombra-sm: 0 1px 3px rgba(0,0,0,0.08);
+  --sombra:    0 2px 8px rgba(0,0,0,0.10);
+  --sombra-lg: 0 8px 24px rgba(0,0,0,0.12);
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 2: RESET E BASE
+   ----------------------------------------------------------------
+   O reset elimina estilos padrão do navegador que variam entre
+   Chrome, Firefox, Safari, etc. Começamos do zero. */
+
+/* Aplica a todos os elementos */
+*, *::before, *::after {
+  box-sizing: border-box; /* Padding e border incluídos na largura total */
+  margin: 0;              /* Remove margens padrão */
+  padding: 0;             /* Remove paddings padrão */
+}
+
+/* Importa as fontes do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap');
+
+html {
+  font-size: 16px;        /* Base: 1rem = 16px */
+  scroll-behavior: smooth; /* Scroll suave ao navegar para âncoras */
+}
+
+body {
+  font-family: var(--fonte);
+  background-color: var(--fundo);
+  color: var(--texto-primario);
+  line-height: 1.6;       /* Espaçamento entre linhas do texto */
+  min-height: 100vh;      /* Página ocupa pelo menos toda a altura do ecrã */
+}
+
+/* Remove estilo padrão dos links */
+a {
+  text-decoration: none;
+  color: var(--info);
+}
+
+a:hover {
+  color: var(--primaria);
+}
+
+/* Remove estilo padrão das listas */
+ul, ol {
+  list-style: none;
+}
+
+/* Imagens não ultrapassam o contentor */
+img {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 3: TIPOGRAFIA
+   ---------------------------------------------------------------- */
+
+h1 { font-size: 2rem;    font-weight: 700; line-height: 1.2; }
+h2 { font-size: 1.5rem;  font-weight: 600; line-height: 1.3; }
+h3 { font-size: 1.25rem; font-weight: 600; line-height: 1.4; }
+h4 { font-size: 1rem;    font-weight: 600; line-height: 1.4; }
+h5 { font-size: 0.875rem;font-weight: 500; }
+h6 { font-size: 0.75rem; font-weight: 500; }
+
+p  { color: var(--texto-secundario); line-height: 1.7; }
+
+/* Texto pequeno — usado em labels e notas */
+.texto-sm  { font-size: 0.875rem; }
+.texto-xs  { font-size: 0.75rem;  }
+.texto-lg  { font-size: 1.125rem; }
+
+/* Cores de texto utilitárias */
+.texto-primario   { color: var(--primaria); }
+.texto-sucesso    { color: var(--sucesso);  }
+.texto-perigo     { color: var(--perigo);   }
+.texto-aviso      { color: var(--aviso);    }
+.texto-suave      { color: var(--texto-suave); }
+.texto-secundario { color: var(--texto-secundario); }
+
+/* Números e valores monetários */
+.valor-monetario {
+  font-family: var(--fonte-mono);
+  font-weight: 500;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 4: LAYOUT — CONTENTOR E GRELHA
+   ---------------------------------------------------------------- */
+
+/* Contentor central com largura máxima */
+.container {
+  width: 100%;
+  max-width: 1200px;     /* Nunca fica mais largo que 1200px */
+  margin: 0 auto;        /* Centra horizontalmente */
+  padding: 0 24px;       /* Espaço nas laterais */
+}
+
+/* Grelha flexível */
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+/* Grelhas por número de colunas */
+.grid-2 { grid-template-columns: repeat(2, 1fr); }
+.grid-3 { grid-template-columns: repeat(3, 1fr); }
+.grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+/* Linha flexível */
+.flex        { display: flex; }
+.flex-centro { display: flex; align-items: center; justify-content: center; }
+.flex-entre  { display: flex; align-items: center; justify-content: space-between; }
+.flex-gap    { display: flex; align-items: center; gap: 12px; }
+.flex-col    { display: flex; flex-direction: column; gap: 16px; }
+
+/* Utilitários de espaçamento */
+.mt-1 { margin-top: 8px;  }
+.mt-2 { margin-top: 16px; }
+.mt-3 { margin-top: 24px; }
+.mt-4 { margin-top: 32px; }
+.mb-1 { margin-bottom: 8px;  }
+.mb-2 { margin-bottom: 16px; }
+.mb-3 { margin-bottom: 24px; }
+.gap-1 { gap: 8px;  }
+.gap-2 { gap: 16px; }
+.gap-3 { gap: 24px; }
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 5: CARTÕES (CARDS)
+   ---------------------------------------------------------------- */
+
+/* Card base — usado em todo o sistema */
+.card {
+  background: var(--fundo-card);
+  border: 0.5px solid var(--borda);
+  border-radius: var(--raio-lg);
+  padding: 24px;
+  box-shadow: var(--sombra-sm);
+}
+
+/* Card com efeito hover (para cards clicáveis) */
+.card-hover {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.card-hover:hover {
+  transform: translateY(-2px);   /* Sobe levemente */
+  box-shadow: var(--sombra-lg);
+}
+
+/* Card de métrica — para números do dashboard */
+.card-metrica {
+  background: var(--fundo-card);
+  border: 0.5px solid var(--borda);
+  border-radius: var(--raio-lg);
+  padding: 20px 24px;
+  position: relative;
+  overflow: hidden;  /* Garante que nada sai dos limites do card */
+}
+
+/* Linha colorida no topo do card de métrica */
+.card-metrica::before {
+  content: '';          /* Elemento vazio só para decoração */
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--primaria);
+}
+
+.card-metrica .metrica-label {
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;   /* Letras maiúsculas */
+  letter-spacing: 0.08em;      /* Espaçamento entre letras */
+  color: var(--texto-suave);
+  margin-bottom: 8px;
+}
+
+.card-metrica .metrica-valor {
+  font-size: 1.75rem;
+  font-weight: 700;
+  font-family: var(--fonte-mono);
+  color: var(--texto-primario);
+  line-height: 1;
+}
+
+.card-metrica .metrica-sub {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+  margin-top: 4px;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 6: BOTÕES
+   ---------------------------------------------------------------- */
+
+/* Botão base — todas as variantes herdam isto */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;                  /* Espaço entre ícone e texto */
+  padding: 10px 20px;
+  border-radius: var(--raio);
+  font-family: var(--fonte);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: all 0.15s ease;  /* Animação suave em todas as propriedades */
+  white-space: nowrap;         /* Texto não quebra linha */
+  text-decoration: none;
+}
+
+/* Não permite clicar quando está desactivado */
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Botão principal — laranja sólido */
+.btn-primario {
+  background: var(--primaria);
+  color: white;
+  border-color: var(--primaria);
+}
+.btn-primario:hover:not(:disabled) {
+  background: var(--primaria-escura);
+  border-color: var(--primaria-escura);
+}
+
+/* Botão secundário — contorno laranja */
+.btn-secundario {
+  background: transparent;
+  color: var(--primaria);
+  border-color: var(--primaria);
+}
+.btn-secundario:hover:not(:disabled) {
+  background: var(--primaria-clara);
+}
+
+/* Botão de sucesso — verde */
+.btn-sucesso {
+  background: var(--sucesso);
+  color: white;
+  border-color: var(--sucesso);
+}
+.btn-sucesso:hover:not(:disabled) {
+  background: #0F6E56;
+}
+
+/* Botão de perigo — vermelho */
+.btn-perigo {
+  background: var(--perigo);
+  color: white;
+  border-color: var(--perigo);
+}
+.btn-perigo:hover:not(:disabled) {
+  background: #A32D2D;
+}
+
+/* Botão fantasma — sem fundo */
+.btn-fantasma {
+  background: transparent;
+  color: var(--texto-secundario);
+  border-color: var(--borda-forte);
+}
+.btn-fantasma:hover:not(:disabled) {
+  background: var(--fundo);
+  color: var(--texto-primario);
+}
+
+/* Tamanhos dos botões */
+.btn-sm { padding: 6px 14px;  font-size: 0.8rem;   }
+.btn-lg { padding: 14px 28px; font-size: 1rem;      }
+.btn-bloco { width: 100%; }   /* Ocupa toda a largura */
+
+/* Efeito de pressão ao clicar */
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 7: FORMULÁRIOS
+   ---------------------------------------------------------------- */
+
+/* Grupo de campo — label + input juntos */
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+
+/* Label do campo */
+.campo-grupo label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--texto-primario);
+}
+
+/* Marca campos obrigatórios com asterisco vermelho */
+.campo-grupo label .obrigatorio {
+  color: var(--perigo);
+  margin-left: 2px;
+}
+
+/* Estilos base para todos os inputs, selects e textareas */
+.campo-grupo input,
+.campo-grupo select,
+.campo-grupo textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio);
+  font-family: var(--fonte);
+  font-size: 0.9rem;
+  color: var(--texto-primario);
+  background: var(--branco);
+  transition: border-color 0.15s, box-shadow 0.15s;
+  outline: none;
+}
+
+/* Foco: contorno laranja quando o utilizador clica no campo */
+.campo-grupo input:focus,
+.campo-grupo select:focus,
+.campo-grupo textarea:focus {
+  border-color: var(--primaria);
+  box-shadow: 0 0 0 3px rgba(224, 90, 30, 0.15);
+}
+
+/* Campo com erro — borda vermelha */
+.campo-grupo input.erro,
+.campo-grupo select.erro {
+  border-color: var(--perigo);
+}
+
+/* Mensagem de erro abaixo do campo */
+.campo-grupo .erro-msg {
+  font-size: 0.75rem;
+  color: var(--perigo);
+}
+
+/* Textarea (campo de texto longo) */
+.campo-grupo textarea {
+  resize: vertical;   /* Só pode redimensionar na vertical */
+  min-height: 100px;
+}
+
+/* Slider (barra deslizante) — usado no simulador */
+input[type="range"] {
+  -webkit-appearance: none;  /* Remove estilo padrão do Chrome */
+  width: 100%;
+  height: 6px;
+  background: var(--borda-forte);
+  border-radius: 3px;
+  outline: none;
+  cursor: pointer;
+}
+
+/* O "polegar" do slider (bolinha que se arrasta) */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  background: var(--primaria);
+  border-radius: 50%;   /* Círculo perfeito */
+  border: 2px solid white;
+  box-shadow: var(--sombra-sm);
+  transition: transform 0.1s;
+}
+
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);  /* Fica maior ao passar o rato */
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 8: BADGES (etiquetas de estado)
+   ---------------------------------------------------------------- */
+
+/* Badge base */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 100px;  /* Cápsula arredondada */
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+/* Cores dos badges por estado */
+.badge-pendente   { background: var(--aviso-clara);  color: var(--aviso);   }
+.badge-analise    { background: var(--info-clara);   color: var(--info);    }
+.badge-aprovado   { background: var(--sucesso-clara);color: var(--sucesso); }
+.badge-rejeitado  { background: var(--perigo-clara); color: var(--perigo);  }
+.badge-ativo      { background: var(--sucesso-clara);color: var(--sucesso); }
+.badge-quitado    { background: #E1F5EE;             color: #085041;        }
+.badge-admin      { background: var(--primaria-clara);color: var(--primaria);}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 9: TABELAS
+   ---------------------------------------------------------------- */
+
+.tabela-wrapper {
+  overflow-x: auto;    /* Scroll horizontal se a tabela for larga */
+  border-radius: var(--raio-lg);
+  border: 0.5px solid var(--borda);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;   /* Remove espaço entre células */
+  font-size: 0.875rem;
+}
+
+thead {
+  background: var(--fundo);
+}
+
+thead th {
+  padding: 12px 16px;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--texto-suave);
+  border-bottom: 1px solid var(--borda);
+  white-space: nowrap;
+}
+
+tbody td {
+  padding: 14px 16px;
+  border-bottom: 0.5px solid var(--borda);
+  color: var(--texto-primario);
+  vertical-align: middle;
+}
+
+/* Remove a borda da última linha */
+tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Fundo suave ao passar o rato na linha */
+tbody tr:hover {
+  background: var(--fundo);
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 10: NAVEGAÇÃO LATERAL (Sidebar)
+   ---------------------------------------------------------------- */
+
+.sidebar {
+  width: 260px;
+  min-height: 100vh;       /* Altura total da janela */
+  background: var(--branco);
+  border-right: 1px solid var(--borda);
+  display: flex;
+  flex-direction: column;
+  position: fixed;         /* Fica fixo enquanto o conteúdo rola */
+  top: 0; left: 0;
+  z-index: 100;
+}
+
+.sidebar-logo {
+  padding: 24px 20px;
+  border-bottom: 1px solid var(--borda);
+}
+
+.sidebar-logo .nome-sistema {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primaria);
+  letter-spacing: -0.02em;
+}
+
+.sidebar-logo .subtitulo {
+  font-size: 0.72rem;
+  color: var(--texto-suave);
+  margin-top: 2px;
+}
+
+/* Menu de navegação */
+.sidebar-nav {
+  flex: 1;       /* Ocupa todo o espaço disponível */
+  padding: 16px 12px;
+  overflow-y: auto;
+}
+
+/* Grupo de itens do menu */
+.nav-grupo {
+  margin-bottom: 24px;
+}
+
+.nav-grupo-titulo {
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--texto-suave);
+  padding: 0 8px;
+  margin-bottom: 6px;
+}
+
+/* Item individual do menu */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border-radius: var(--raio);
+  color: var(--texto-secundario);
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-decoration: none;
+  margin-bottom: 2px;
+}
+
+.nav-item:hover {
+  background: var(--fundo);
+  color: var(--texto-primario);
+}
+
+/* Item activo — página actual */
+.nav-item.activo {
+  background: var(--primaria-clara);
+  color: var(--primaria);
+}
+
+.nav-item i {
+  font-size: 18px;
+  width: 20px;            /* Largura fixa para alinhar os textos */
+  flex-shrink: 0;         /* Não encolhe */
+}
+
+/* Contador de notificações no menu */
+.nav-badge {
+  margin-left: auto;       /* Empurra para a direita */
+  background: var(--perigo);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 1px 6px;
+  border-radius: 100px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* Rodapé da sidebar com info do utilizador */
+.sidebar-footer {
+  padding: 16px 20px;
+  border-top: 1px solid var(--borda);
+}
+
+.sidebar-usuario {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Avatar com iniciais */
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--primaria-clara);
+  color: var(--primaria);
+  font-size: 0.8rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Área principal do conteúdo (ao lado da sidebar) */
+.conteudo-principal {
+  margin-left: 260px;      /* Afasta o conteúdo da sidebar */
+  min-height: 100vh;
+  padding: 32px;
+}
+
+/* Cabeçalho de cada página */
+.pagina-header {
+  margin-bottom: 32px;
+}
+
+.pagina-titulo {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--texto-primario);
+}
+
+.pagina-subtitulo {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+  margin-top: 4px;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 11: MODAL (Janela flutuante)
+   ---------------------------------------------------------------- */
+
+/* Fundo escuro por trás do modal */
+.modal-overlay {
+  position: fixed;
+  inset: 0;          /* Cobre todo o ecrã (top, right, bottom, left = 0) */
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  opacity: 0;                     /* Começa invisível */
+  transition: opacity 0.2s ease;
+}
+
+/* Quando o modal está visível */
+.modal-overlay.visivel {
+  opacity: 1;
+}
+
+/* Caixa do modal */
+.modal {
+  background: var(--branco);
+  border-radius: var(--raio-xl);
+  padding: 32px;
+  width: 100%;
+  max-width: 520px;
+  max-height: 90vh;        /* Nunca ultrapassa 90% da altura do ecrã */
+  overflow-y: auto;        /* Scroll interno se o conteúdo for grande */
+  transform: translateY(20px);    /* Começa ligeiramente abaixo */
+  transition: transform 0.2s ease;
+}
+
+.modal-overlay.visivel .modal {
+  transform: translateY(0);   /* Sobe para a posição normal */
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modal-titulo {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+/* Botão X para fechar o modal */
+.modal-fechar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: none;
+  background: var(--fundo);
+  color: var(--texto-secundario);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: background 0.15s;
+}
+
+.modal-fechar:hover {
+  background: var(--borda);
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 12: ESTADO VAZIO
+   ----------------------------------------------------------------
+   Mostrado quando não há dados para apresentar numa lista/tabela */
+
+.estado-vazio {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--texto-suave);
+}
+
+.estado-vazio i {
+  font-size: 48px;
+  margin-bottom: 16px;
+  opacity: 0.4;
+}
+
+.estado-vazio h3 {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--texto-secundario);
+  margin-bottom: 8px;
+}
+
+.estado-vazio p {
+  font-size: 0.875rem;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 13: BARRA DE PROGRESSO
+   ---------------------------------------------------------------- */
+
+.progresso-wrapper {
+  background: var(--fundo);
+  border-radius: 100px;
+  height: 8px;
+  overflow: hidden;
+}
+
+.progresso-barra {
+  height: 100%;
+  background: var(--primaria);
+  border-radius: 100px;
+  transition: width 0.4s ease;   /* Animação suave ao mudar o valor */
+}
+
+.progresso-barra.sucesso { background: var(--sucesso); }
+.progresso-barra.aviso   { background: var(--aviso);   }
+.progresso-barra.perigo  { background: var(--perigo);  }
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO 14: RESPONSIVIDADE
+   ----------------------------------------------------------------
+   Adaptações para ecrãs mais pequenos (tablets e telemóveis) */
+
+/* Tablets — ecrã até 1024px */
+@media (max-width: 1024px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-3 { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* Telemóveis — ecrã até 768px */
+@media (max-width: 768px) {
+
+  /* Sidebar fica escondida em telemóvel */
+  .sidebar {
+    transform: translateX(-100%);  /* Desliza para fora do ecrã */
+    transition: transform 0.3s ease;
+  }
+
+  /* Quando a sidebar está aberta em telemóvel */
+  .sidebar.aberta {
+    transform: translateX(0);
+  }
+
+  /* Conteúdo ocupa toda a largura */
+  .conteudo-principal {
+    margin-left: 0;
+    padding: 20px 16px;
+  }
+
+  .grid-2 { grid-template-columns: 1fr; }  /* Uma coluna só */
+  .grid-3 { grid-template-columns: 1fr; }
+  .grid-4 { grid-template-columns: 1fr; }
+
+  h1 { font-size: 1.5rem; }
+  h2 { font-size: 1.25rem; }
+}
+
+/* ----------------------------------------------------------------
+   SECÇÃO 15: ANIMAÇÕES GLOBAIS
+   Usadas em botões de carregamento em todo o sistema
+   ---------------------------------------------------------------- */
+
+/* Animação de rotação — usada no ícone de "a carregar..." */
+@keyframes spin {
+  from { transform: rotate(0deg);   }
+  to   { transform: rotate(360deg); }
+}
+
+/* Classe utilitária para aplicar a rotação a qualquer ícone */
+.icone-girando {
+  animation: spin 1s linear infinite;
+}

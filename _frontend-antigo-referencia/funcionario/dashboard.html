@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt">
+<!--
+  funcionario/dashboard.html — Dashboard do Funcionário
+  Está dentro de funcionario/ por isso todos os paths usam "../"
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Funcionário — CréditoMZ</title>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/funcionario.css">
+</head>
+
+<body class="dashboard-body">
+
+  <!-- ============================================================
+       SIDEBAR
+       ============================================================ -->
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      <div class="nome-sistema">CréditoMZ</div>
+      <div class="subtitulo">Painel do Funcionário</div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Gestão</div>
+
+        <a href="dashboard.html" class="nav-item activo">
+          <i class="ti ti-layout-dashboard"></i>
+          Painel de Pedidos
+        </a>
+      </div>
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Conta</div>
+
+        <a href="#" class="nav-item">
+          <i class="ti ti-user"></i>
+          Meu Perfil
+        </a>
+
+        <a href="#" class="nav-item">
+          <i class="ti ti-help-circle"></i>
+          Ajuda
+        </a>
+      </div>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-usuario">
+        <div class="avatar" id="avatar-iniciais">--</div>
+        <div style="flex:1; min-width:0">
+          <div class="texto-sm" style="font-weight:600" id="nome-usuario">
+            A carregar...
+          </div>
+          <div class="texto-xs texto-suave" id="perfil-usuario">
+            Funcionário
+          </div>
+        </div>
+        <button id="btn-logout" class="btn-fantasma btn-sm"
+          style="padding:6px; border:none">
+          <i class="ti ti-logout"></i>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <!-- ============================================================
+       CONTEÚDO PRINCIPAL
+       ============================================================ -->
+  <main class="conteudo-principal">
+
+    <!-- Cabeçalho -->
+    <div class="pagina-header flex-entre">
+      <div>
+        <h1 class="pagina-titulo">Painel de Pedidos</h1>
+        <p class="pagina-subtitulo">
+          Analise os pedidos e encaminhe para o Gerente
+        </p>
+      </div>
+
+      <div class="header-acoes">
+        <div style="position:relative">
+          <button class="btn-notificacao" id="btn-notificacoes">
+            <i class="ti ti-bell"></i>
+            <span class="notif-contador escondido" id="notif-contador">0</span>
+          </button>
+          <div class="painel-notificacoes" id="painel-notificacoes">
+            <div class="painel-notif-header">Notificações</div>
+            <div id="lista-notificacoes"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards de resumo -->
+    <div class="resumo-grid">
+
+      <div class="card-metrica">
+        <div class="metrica-label">Pendentes</div>
+        <div class="metrica-valor" id="resumo-pendentes">0</div>
+        <div class="metrica-sub">Aguardam análise</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Em Análise</div>
+        <div class="metrica-valor" id="resumo-em-analise">0</div>
+        <div class="metrica-sub">Encaminhados ao Gerente</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Aprovados</div>
+        <div class="metrica-valor" id="resumo-aprovados">0</div>
+        <div class="metrica-sub">Aprovados pelo Gerente</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Total de Pedidos</div>
+        <div class="metrica-valor" id="resumo-total">0</div>
+        <div class="metrica-sub">Desde o início</div>
+      </div>
+
+    </div>
+
+    <!-- Barra de filtros e pesquisa -->
+    <div class="filtros-barra">
+
+      <div class="pesquisa-wrapper">
+        <i class="ti ti-search pesquisa-icone"></i>
+        <input type="text" class="pesquisa-input" id="input-pesquisa"
+          placeholder="Pesquisar por cliente ou número do pedido...">
+      </div>
+
+      <div class="filtros-status">
+        <button class="filtro-btn activo" data-filtro="pendente">
+          Pendentes
+        </button>
+        <button class="filtro-btn" data-filtro="em_analise">
+          Em Análise
+        </button>
+        <button class="filtro-btn" data-filtro="todos">
+          Todos
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Tabela de pedidos -->
+    <div class="tabela-pedidos-wrapper">
+
+      <div class="tabela-pedidos-header">
+        <span class="tabela-pedidos-titulo">Lista de Pedidos</span>
+        <span class="texto-xs texto-suave">
+          Clique numa linha para analisar o pedido
+        </span>
+      </div>
+
+      <div class="tabela-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Nº Pedido</th>
+              <th>Cliente</th>
+              <th>Tipo</th>
+              <th>Valor</th>
+              <th>Prazo</th>
+              <th>Estado</th>
+              <th>Data</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-corpo">
+            <!-- Preenchido pelo js/funcionario.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+       MODAL DE ANÁLISE DO PEDIDO
+       ============================================================ -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" style="max-width:700px">
+
+      <!-- Cabeçalho -->
+      <div class="modal-header">
+        <div>
+          <div class="flex-gap">
+            <h3 class="modal-titulo">
+              Pedido <span id="modal-pedido-id">#00000</span>
+            </h3>
+            <span class="badge badge-pendente" id="modal-pedido-status">
+              Pendente
+            </span>
+          </div>
+        </div>
+        <button class="modal-fechar" id="btn-fechar-modal">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+
+      <!-- Secção: Dados do Cliente -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-user"></i> Dados do Cliente
+        </div>
+        <div class="modal-dados-grid">
+          <div class="modal-dado">
+            <div class="modal-dado-label">Nome</div>
+            <div class="modal-dado-valor" id="modal-cli-nome">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">BI</div>
+            <div class="modal-dado-valor" id="modal-cli-bi">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Telefone</div>
+            <div class="modal-dado-valor" id="modal-cli-telefone">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Rendimento Mensal</div>
+            <div class="modal-dado-valor" id="modal-cli-rendimento">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Tipo de Emprego</div>
+            <div class="modal-dado-valor" id="modal-cli-emprego">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Endereço</div>
+            <div class="modal-dado-valor" id="modal-cli-endereco">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secção: Dados do Pedido -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-credit-card"></i> Dados do Pedido
+        </div>
+        <div class="modal-dados-grid">
+          <div class="modal-dado">
+            <div class="modal-dado-label">Tipo de Crédito</div>
+            <div class="modal-dado-valor" id="modal-emp-tipo">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Valor Pedido</div>
+            <div class="modal-dado-valor" id="modal-emp-valor">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Prazo</div>
+            <div class="modal-dado-valor" id="modal-emp-prazo">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Prestação Mensal</div>
+            <div class="modal-dado-valor" id="modal-emp-parcela">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Total de Juros</div>
+            <div class="modal-dado-valor" id="modal-emp-juros">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Total a Pagar</div>
+            <div class="modal-dado-valor" id="modal-emp-total">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Secção: Score de Crédito -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-chart-bar"></i> Avaliação de Risco
+        </div>
+
+        <div class="score-linha">
+          <div class="score-num-grande" id="modal-score-num">—</div>
+          <div class="score-info-texto">
+            <div class="score-nivel-texto" id="modal-score-nivel">—</div>
+            <div class="score-desc" id="modal-score-desc">—</div>
+          </div>
+        </div>
+
+        <div class="progresso-wrapper">
+          <div class="progresso-barra" id="modal-score-barra"
+            style="width:0%">
+          </div>
+        </div>
+      </div>
+
+      <!-- Secção: Documentos -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-files"></i> Documentos Anexados
+        </div>
+        <div class="docs-lista" id="modal-documentos">
+          <!-- Preenchido pelo js/funcionario.js -->
+        </div>
+      </div>
+
+      <!-- Secção: Observações + Encaminhar -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-send"></i> Encaminhar para Aprovação
+        </div>
+
+        <div class="campo-observacoes">
+          <label for="campo-observacoes">
+            Observações para o Gerente (opcional)
+          </label>
+          <textarea id="campo-observacoes"
+            placeholder="Escreva aqui qualquer informação relevante para o Gerente...">
+          </textarea>
+        </div>
+
+        <!-- Botão de encaminhar -->
+        <button class="btn-encaminhar" id="btn-encaminhar">
+          <i class="ti ti-send"></i>
+          Encaminhar para o Gerente
+        </button>
+
+        <!-- Aviso de que não pode rejeitar -->
+        <div class="aviso-permissao">
+          <i class="ti ti-info-circle"></i>
+          Como Funcionário, apenas pode encaminhar pedidos para aprovação.
+          A decisão de aprovação ou rejeição é da responsabilidade do Gerente.
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- Scripts -->
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/funcionario.js"></script>
+
+</body>
+</html>

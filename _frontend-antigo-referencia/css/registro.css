@@ -1,0 +1,113 @@
+/* ================================================================
+   css/registro.css
+   Estilos exclusivos da página registro.html
+   Requer css/style.css e css/auth.css carregados antes
+   ================================================================ */
+
+
+/* ----------------------------------------------------------------
+   AJUSTE DE LARGURA DO CARD
+   O registo tem mais campos que o login, por isso é mais largo
+   ---------------------------------------------------------------- */
+
+.auth-wrapper.registro {
+  max-width: 1100px;
+  min-height: auto;
+}
+
+/* Permite scroll interno no lado direito quando o formulário é longo */
+.auth-direita.scroll {
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+
+/* ----------------------------------------------------------------
+   GRELHA DE CAMPOS EM PARES
+   Usado para BI + Telefone, e Rendimento + Tipo de Emprego
+   ---------------------------------------------------------------- */
+
+.auth-campo-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+
+/* ----------------------------------------------------------------
+   BARRA DE FORÇA DA SENHA
+   Mostra visualmente se a senha é fraca, média ou forte
+   ---------------------------------------------------------------- */
+
+.forca-senha-wrapper {
+  margin-top: -10px;
+  margin-bottom: 16px;
+}
+
+/* Trilho cinzento de fundo da barra */
+.forca-senha-track {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.10);
+  border-radius: 100px;
+  overflow: hidden;
+  margin-bottom: 4px;
+}
+
+/* Barra colorida interna — a largura e cor são definidas via JS */
+.forca-senha-track > div {
+  height: 100%;
+  width: 0%;
+  border-radius: 100px;
+  transition: width 0.3s, background 0.3s;
+}
+
+/* Texto que diz "Senha fraca/média/forte" */
+.forca-senha-texto {
+  font-size: 0.72rem;
+  color: rgba(255, 255, 255, 0.40);
+}
+
+
+/* ----------------------------------------------------------------
+   CHECKBOX DE TERMOS E CONDIÇÕES
+   ---------------------------------------------------------------- */
+
+.auth-termos {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+.auth-termos input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: var(--primaria);
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.auth-termos label {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.60);
+  line-height: 1.5;
+  cursor: pointer;
+}
+
+.auth-termos a {
+  color: #FFB085;
+  text-decoration: underline;
+}
+
+
+/* ----------------------------------------------------------------
+   RESPONSIVIDADE
+   Em telemóvel, os pares de campos ficam em coluna única
+   ---------------------------------------------------------------- */
+
+@media (max-width: 768px) {
+  .auth-campo-grid {
+    grid-template-columns: 1fr;
+  }
+}

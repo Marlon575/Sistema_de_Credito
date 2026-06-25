@@ -1,0 +1,27 @@
+# =============================================================
+# .gitignore — Ficheiros e pastas que o Git nunca deve guardar
+# =============================================================
+
+# Configurações secretas — NUNCA subir isto ao GitHub
+.env
+.env.local
+.env.production
+
+# Dependências instaladas (recriadas com "npm install", não precisam
+# de ir para o Git — seriam milhares de ficheiros desnecessários)
+node_modules/
+
+# Código TypeScript já traduzido para JavaScript (gerado com "npm run build")
+dist/
+
+# Documentos enviados pelos clientes (dados sensíveis, ficam só localmente
+# ou num serviço de armazenamento próprio, nunca no Git)
+uploads/
+
+# Ficheiros de log
+*.log
+npm-debug.log*
+
+# Ficheiros gerados pelo sistema operativo
+.DS_Store
+Thumbs.db

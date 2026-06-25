@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="pt">
+<!--
+  gerente/dashboard.html — Dashboard do Gerente de Relacionamento
+  Está dentro de gerente/ por isso todos os paths usam "../"
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Gerente — CréditoMZ</title>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/gerente.css">
+</head>
+
+<body class="dashboard-body">
+
+  <!-- ============================================================
+       SIDEBAR
+       ============================================================ -->
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      <div class="nome-sistema">CréditoMZ</div>
+      <div class="subtitulo">Gerente de Relacionamento</div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Aprovações</div>
+
+        <a href="dashboard.html" class="nav-item activo">
+          <i class="ti ti-checkup-list"></i>
+          Pedidos para Aprovação
+        </a>
+      </div>
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Conta</div>
+
+        <a href="#" class="nav-item">
+          <i class="ti ti-user"></i>
+          Meu Perfil
+        </a>
+      </div>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-usuario">
+        <div class="avatar" id="avatar-iniciais">--</div>
+        <div style="flex:1; min-width:0">
+          <div class="texto-sm" style="font-weight:600" id="nome-usuario">
+            A carregar...
+          </div>
+          <div class="texto-xs texto-suave" id="perfil-usuario">
+            Gerente
+          </div>
+        </div>
+        <button id="btn-logout" class="btn-fantasma btn-sm"
+          style="padding:6px; border:none">
+          <i class="ti ti-logout"></i>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <!-- ============================================================
+       CONTEÚDO PRINCIPAL
+       ============================================================ -->
+  <main class="conteudo-principal">
+
+    <div class="pagina-header flex-entre">
+      <div>
+        <h1 class="pagina-titulo">Aprovação de Créditos</h1>
+        <p class="pagina-subtitulo">
+          Analise e decida sobre os pedidos encaminhados pelo Funcionário
+        </p>
+      </div>
+
+      <div class="header-acoes">
+        <div style="position:relative">
+          <button class="btn-notificacao" id="btn-notificacoes">
+            <i class="ti ti-bell"></i>
+            <span class="notif-contador escondido" id="notif-contador">0</span>
+          </button>
+          <div class="painel-notificacoes" id="painel-notificacoes">
+            <div class="painel-notif-header">Notificações</div>
+            <div id="lista-notificacoes"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cards de resumo -->
+    <div class="resumo-grid">
+
+      <div class="card-metrica">
+        <div class="metrica-label">Para Aprovação</div>
+        <div class="metrica-valor" id="resumo-em-analise">0</div>
+        <div class="metrica-sub">Aguardam a sua decisão</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Aprovados</div>
+        <div class="metrica-valor" id="resumo-aprovados">0</div>
+        <div class="metrica-sub">Créditos activos e quitados</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Rejeitados</div>
+        <div class="metrica-valor" id="resumo-rejeitados">0</div>
+        <div class="metrica-sub">Pedidos recusados</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Total Analisado</div>
+        <div class="metrica-valor" id="resumo-total">0</div>
+        <div class="metrica-sub">Pedidos recebidos</div>
+      </div>
+
+    </div>
+
+    <!-- Filtros e pesquisa -->
+    <div class="filtros-barra">
+
+      <div class="pesquisa-wrapper">
+        <i class="ti ti-search pesquisa-icone"></i>
+        <input type="text" class="pesquisa-input" id="input-pesquisa"
+          placeholder="Pesquisar por cliente ou número do pedido...">
+      </div>
+
+      <div class="filtros-status">
+        <button class="filtro-btn activo" data-filtro="em_analise">
+          Para Aprovação
+        </button>
+        <button class="filtro-btn" data-filtro="aprovado">
+          Aprovados
+        </button>
+        <button class="filtro-btn" data-filtro="rejeitado">
+          Rejeitados
+        </button>
+        <button class="filtro-btn" data-filtro="todos">
+          Todos
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Tabela -->
+    <div class="tabela-pedidos-wrapper">
+
+      <div class="tabela-pedidos-header">
+        <span class="tabela-pedidos-titulo">Pedidos de Crédito</span>
+        <span class="texto-xs texto-suave">
+          Clique numa linha para aprovar ou rejeitar
+        </span>
+      </div>
+
+      <div class="tabela-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Nº Pedido</th>
+              <th>Cliente</th>
+              <th>Tipo</th>
+              <th>Valor</th>
+              <th>Prazo</th>
+              <th>Score</th>
+              <th>Estado</th>
+              <th>Actualizado</th>
+            </tr>
+          </thead>
+          <tbody id="tabela-corpo">
+            <!-- Preenchido pelo js/gerente.js -->
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+       MODAL DE DECISÃO
+       ============================================================ -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" style="max-width:700px">
+
+      <div class="modal-header">
+        <div class="flex-gap">
+          <h3 class="modal-titulo">
+            Pedido <span id="modal-pedido-id">#00000</span>
+          </h3>
+          <span class="badge badge-analise" id="modal-pedido-status">
+            Em Análise
+          </span>
+        </div>
+        <button class="modal-fechar" id="btn-fechar-modal">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+
+      <!-- Dados do cliente -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-user"></i> Dados do Cliente
+        </div>
+        <div class="modal-dados-grid">
+          <div class="modal-dado">
+            <div class="modal-dado-label">Nome</div>
+            <div class="modal-dado-valor" id="modal-cli-nome">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">BI</div>
+            <div class="modal-dado-valor" id="modal-cli-bi">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Telefone</div>
+            <div class="modal-dado-valor" id="modal-cli-telefone">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Rendimento Mensal</div>
+            <div class="modal-dado-valor" id="modal-cli-rendimento">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Tipo de Emprego</div>
+            <div class="modal-dado-valor" id="modal-cli-emprego">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Endereço</div>
+            <div class="modal-dado-valor" id="modal-cli-endereco">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dados do pedido -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-credit-card"></i> Dados do Pedido
+        </div>
+        <div class="modal-dados-grid">
+          <div class="modal-dado">
+            <div class="modal-dado-label">Tipo de Crédito</div>
+            <div class="modal-dado-valor" id="modal-emp-tipo">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Valor Pedido</div>
+            <div class="modal-dado-valor" id="modal-emp-valor">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Prazo</div>
+            <div class="modal-dado-valor" id="modal-emp-prazo">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Prestação Mensal</div>
+            <div class="modal-dado-valor" id="modal-emp-parcela">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Total de Juros</div>
+            <div class="modal-dado-valor" id="modal-emp-juros">—</div>
+          </div>
+          <div class="modal-dado">
+            <div class="modal-dado-label">Total a Pagar</div>
+            <div class="modal-dado-valor" id="modal-emp-total">—</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Score de crédito -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-chart-bar"></i> Avaliação de Risco
+        </div>
+        <div class="score-linha">
+          <div class="score-num-grande" id="modal-score-num">—</div>
+          <div class="score-info-texto">
+            <div class="score-nivel-texto" id="modal-score-nivel">—</div>
+            <div class="score-desc" id="modal-score-desc">—</div>
+          </div>
+        </div>
+        <div class="progresso-wrapper">
+          <div class="progresso-barra" id="modal-score-barra"
+            style="width:0%">
+          </div>
+        </div>
+      </div>
+
+      <!-- Observações do funcionário -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-message-circle"></i>
+          <span id="obs-funcionario-nome">Observações do Funcionário</span>
+        </div>
+        <div class="obs-funcionario" id="obs-funcionario-container"
+          style="display:none">
+          <i class="ti ti-quote"></i>
+          <span id="obs-funcionario-texto"></span>
+        </div>
+      </div>
+
+      <!-- Botões de decisão -->
+      <div class="modal-secao">
+        <div class="modal-secao-titulo">
+          <i class="ti ti-gavel"></i> Decisão
+        </div>
+
+        <div class="decisao-botoes">
+          <button class="btn-aprovar" id="btn-aprovar">
+            <i class="ti ti-check"></i>
+            Aprovar Crédito
+          </button>
+          <button class="btn-rejeitar" id="btn-rejeitar">
+            <i class="ti ti-x"></i>
+            Rejeitar Pedido
+          </button>
+        </div>
+
+        <!-- Campo de motivo — só aparece ao clicar em Rejeitar -->
+        <div class="campo-motivo" id="campo-motivo">
+          <label for="motivo-rejeicao">
+            Motivo da rejeição (obrigatório)
+          </label>
+          <textarea id="motivo-rejeicao"
+            placeholder="Descreva o motivo da rejeição para notificar o cliente...">
+          </textarea>
+        </div>
+
+        <!-- Botão de confirmar rejeição -->
+        <button class="btn-confirmar-rejeicao" id="btn-confirmar-rejeicao">
+          <i class="ti ti-alert-triangle"></i>
+          Confirmar Rejeição
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/gerente.js"></script>
+
+</body>
+</html>

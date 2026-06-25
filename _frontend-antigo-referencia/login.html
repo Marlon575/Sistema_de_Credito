@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="pt">
+<!--
+  login.html — Página de Login do CréditoMZ
+  Card com efeito glass sobre imagem de fundo financeira
+  CORRIGIDO: removido o <style> inline, animação movida para style.css
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Entrar — CréditoMZ</title>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <!-- Apenas referências a ficheiros .css — nenhum CSS escrito aqui -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body class="auth-pagina">
+
+  <div class="auth-bg" style="background-image:
+    url('https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1920&q=80')">
+  </div>
+
+  <div class="auth-overlay"></div>
+  <div class="auth-luz-1"></div>
+  <div class="auth-luz-2"></div>
+
+  <div class="auth-wrapper">
+
+    <div class="auth-esquerda">
+
+      <a href="index.html" class="auth-logo">
+        Crédito<span>MZ</span>
+      </a>
+
+      <div class="auth-esquerda-conteudo">
+
+        <div class="auth-icone-grande">
+          <i class="ti ti-building-bank"></i>
+        </div>
+
+        <h2>
+          Acesso seguro à sua conta de crédito
+        </h2>
+        <p>
+          Faça login para consultar os seus pedidos, acompanhar aprovações
+          e gerir as suas prestações de forma simples e rápida.
+        </p>
+
+        <div class="auth-features">
+
+          <div class="auth-feature">
+            <div class="auth-feature-icone">
+              <i class="ti ti-check"></i>
+            </div>
+            Acompanhe o estado do seu pedido em tempo real
+          </div>
+
+          <div class="auth-feature">
+            <div class="auth-feature-icone">
+              <i class="ti ti-check"></i>
+            </div>
+            Simule novos créditos directamente na plataforma
+          </div>
+
+          <div class="auth-feature">
+            <div class="auth-feature-icone">
+              <i class="ti ti-check"></i>
+            </div>
+            Consulte o histórico completo de pagamentos
+          </div>
+
+          <div class="auth-feature">
+            <div class="auth-feature-icone">
+              <i class="ti ti-check"></i>
+            </div>
+            Processo 100% digital, seguro e transparente
+          </div>
+
+        </div>
+      </div>
+
+      <div class="auth-esquerda-rodape">
+        © 2024 CréditoMZ · Todos os direitos reservados
+      </div>
+
+    </div>
+
+    <div class="auth-direita">
+
+      <div class="auth-form-header">
+
+        <div class="auth-form-tag">
+          <i class="ti ti-lock"></i>
+          Acesso seguro
+        </div>
+
+        <h1 class="auth-form-titulo">Bem-vindo de volta</h1>
+        <p class="auth-form-sub">
+          Insira as suas credenciais para aceder à plataforma.
+        </p>
+
+      </div>
+
+      <div class="auth-alerta" id="login-alerta"></div>
+
+      <form id="form-login" novalidate>
+
+        <div class="auth-campo">
+          <label for="login-email">Email</label>
+          <div class="auth-input-wrapper">
+            <i class="ti ti-mail auth-input-icone"></i>
+            <input
+              type="email"
+              id="login-email"
+              class="auth-input"
+              placeholder="o.seu@email.com"
+              autocomplete="email"
+              required>
+          </div>
+        </div>
+
+        <div class="auth-campo">
+          <label for="login-senha">Senha</label>
+          <div class="auth-input-wrapper">
+            <i class="ti ti-lock auth-input-icone"></i>
+            <input
+              type="password"
+              id="login-senha"
+              class="auth-input"
+              placeholder="A sua senha"
+              autocomplete="current-password"
+              required>
+            <button type="button"
+              id="btn-mostrar-senha"
+              class="auth-mostrar-senha"
+              aria-label="Mostrar senha">
+              <i class="ti ti-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-opcoes">
+
+          <label class="auth-lembrar">
+            <input type="checkbox" id="lembrar-me">
+            <span>Lembrar-me</span>
+          </label>
+
+          <a href="#" class="auth-esqueceu">
+            Esqueceu a senha?
+          </a>
+
+        </div>
+
+        <button type="submit" id="btn-login" class="btn-auth">
+          <i class="ti ti-login"></i>
+          Entrar
+        </button>
+
+      </form>
+
+      <div class="auth-divisor">
+        <span>ou aceda com uma conta demo</span>
+      </div>
+
+      <div class="auth-demo">
+        <div class="auth-demo-titulo">
+          <i class="ti ti-test-pipe"></i>
+          Contas de demonstração
+        </div>
+        <div id="demo-credenciais"></div>
+      </div>
+
+      <div class="auth-link-alterno com-espaco">
+        Não tem conta?
+        <a href="registro.html">Criar conta gratuita</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/login.js"></script>
+
+</body>
+</html>

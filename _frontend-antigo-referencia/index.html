@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="pt">
+<!--
+  index.html — Landing Page SPA do CréditoMZ
+  SPA = Single Page Application (tudo numa página só)
+  Toda a estrutura HTML está aqui. CSS e JS estão em ficheiros separados.
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CréditoMZ — Soluções de Crédito em Moçambique</title>
+
+  <!-- Ícones Tabler -->
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <!-- Estilos globais primeiro, depois os específicos da landing -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/landing.css">
+</head>
+
+<body>
+
+<!-- ================================================================
+     NAVBAR
+     id="navbar" é usado pelo JS para mudar o estilo ao fazer scroll
+     Começa com classe "transparente" sobre a imagem hero
+     ================================================================ -->
+<nav class="nav-topo transparente" id="navbar">
+
+  <!-- Logo -->
+  <a href="#inicio" class="nav-logo">Crédito<span>MZ</span></a>
+
+  <!-- Links para cada secção da SPA -->
+  <div class="nav-links">
+    <a href="#inicio">Início</a>
+    <a href="#sobre">Sobre Nós</a>
+    <a href="#como-funciona">Como Funciona</a>
+    <a href="#tipos-credito">Tipos de Crédito</a>
+    <a href="#planos">Planos</a>
+    <a href="#faq">FAQ</a>
+    <a href="#contacto">Contacto</a>
+  </div>
+
+  <!-- Botões de acção -->
+  <div class="nav-botoes">
+    <a href="login.html" class="btn-nav-entrar">
+      <i class="ti ti-login"></i> Entrar
+    </a>
+    <a href="registro.html" class="btn btn-primario btn-sm">
+      <i class="ti ti-arrow-right"></i> Pedir Crédito
+    </a>
+  </div>
+
+</nav>
+
+
+<!-- ================================================================
+     SECÇÃO 1: HERO
+     Imagem de fundo com texto central e simulador
+     ================================================================ -->
+<section class="hero" id="inicio">
+
+  <!-- Imagem de fundo -->
+  <!-- Substitui hero-bg.jpg por uma imagem tua na pasta assets/ -->
+  <div class="hero-bg"></div>
+
+  <!-- Camada escura por cima da imagem para o texto ser legível -->
+  <div class="hero-overlay"></div>
+
+  <!-- Conteúdo central do hero -->
+  <div class="hero-conteudo">
+
+    <!-- Etiqueta pequena -->
+    <div class="hero-badge">
+      <i class="ti ti-shield-check"></i>
+      Crédito seguro e aprovado rapidamente
+    </div>
+
+    <!-- Título principal -->
+    <h1 class="hero-titulo">
+      Financiamento para realizar os seus
+      <span class="destaque">sonhos</span>
+    </h1>
+
+    <!-- Subtítulo -->
+    <p class="hero-sub">
+      Crédito pessoal, para investimento e para funcionários públicos e privados.
+      Taxas competitivas, processo 100% digital e aprovação em 48 horas.
+    </p>
+
+    <!-- Botões de acção -->
+    <div class="hero-botoes">
+      <a href="registro.html" class="btn-hero-primario">
+        <i class="ti ti-arrow-right"></i>
+        Pedir Crédito Agora
+      </a>
+      <a href="#como-funciona" class="btn-hero-secundario">
+        <i class="ti ti-info-circle"></i>
+        Como Funciona
+      </a>
+    </div>
+
+    <!-- Estatísticas -->
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <div class="hero-stat-valor">2.5K+</div>
+        <div class="hero-stat-label">Clientes activos</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-valor">98%</div>
+        <div class="hero-stat-label">Taxa de satisfação</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-valor">48h</div>
+        <div class="hero-stat-label">Aprovação rápida</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-valor">3</div>
+        <div class="hero-stat-label">Tipos de crédito</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Seta animada para indicar scroll -->
+  <div class="hero-scroll" onclick="document.getElementById('inicio-info').scrollIntoView({behavior:'smooth'})">
+    <i class="ti ti-chevrons-down"></i>
+  </div>
+
+</section>
+
+
+<!-- ================================================================
+     SECÇÃO 2: INÍCIO (O que é, quem usa, benefícios)
+     ================================================================ -->
+<section class="secao secao-escura" id="inicio-info">
+  <div class="container">
+
+    <!-- Cabeçalho da secção -->
+    <div class="secao-header">
+      <div class="secao-tag">
+        <i class="ti ti-info-circle"></i>
+        O que é o CréditoMZ
+      </div>
+      <h2 class="secao-titulo">A solução de crédito que precisas</h2>
+      <p class="secao-desc">
+        O CréditoMZ é uma plataforma digital criada para facilitar o acesso
+        a crédito pessoal e empresarial em Moçambique. Processo simples,
+        transparente e 100% digital.
+      </p>
+    </div>
+
+    <!-- 3 cards de benefícios -->
+    <div class="beneficios-grid">
+
+      <div class="beneficio-card animar">
+        <div class="beneficio-icone">
+          <i class="ti ti-users"></i>
+        </div>
+        <h3 class="beneficio-titulo">Para todos</h3>
+        <p class="beneficio-desc">
+          Disponível para funcionários públicos, privados, empresários
+          e particulares com rendimento comprovado.
+        </p>
+      </div>
+
+      <div class="beneficio-card animar">
+        <div class="beneficio-icone">
+          <i class="ti ti-clock"></i>
+        </div>
+        <h3 class="beneficio-titulo">Processo rápido</h3>
+        <p class="beneficio-desc">
+          Submete o pedido online, a nossa equipa analisa e o Gerente
+          aprova. Tudo em menos de 48 horas.
+        </p>
+      </div>
+
+      <div class="beneficio-card animar">
+        <div class="beneficio-icone">
+          <i class="ti ti-lock"></i>
+        </div>
+        <h3 class="beneficio-titulo">Seguro e transparente</h3>
+        <p class="beneficio-desc">
+          Todas as taxas e condições são apresentadas antes de assinar.
+          Sem surpresas nem custos escondidos.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================================================================
+     SECÇÃO 5: TIPOS DE CRÉDITO
+     ================================================================ -->
+<section class="secao secao-clara" id="tipos-credito">
+  <div class="container">
+
+    <div class="secao-header">
+      <div class="secao-tag">
+        <i class="ti ti-credit-card"></i>
+        Produtos
+      </div>
+      <h2 class="secao-titulo">Tipos de Crédito</h2>
+      <p class="secao-desc">
+        Três produtos pensados para diferentes necessidades e perfis.
+      </p>
+    </div>
+
+    <div class="tipos-grid">
+
+      <!-- Crédito Consumo -->
+      <div class="tipo-card animar">
+        <div class="tipo-icone">
+          <i class="ti ti-shopping-cart"></i>
+        </div>
+        <h3 class="tipo-nome">Crédito Consumo</h3>
+        <p class="tipo-desc">
+          Para compras pessoais, electrodomésticos, viagens e despesas do dia-a-dia.
+        </p>
+        <div class="tipo-taxa-linha">
+          <span class="taxa-num">1.667</span>
+          <span class="taxa-unidade">% / mês</span>
+        </div>
+        <p class="tipo-info-extra">Taxa nominal: 20% ao ano · Prazo: 6 a 60 meses</p>
+        <div class="tipo-features">
+          <div class="tipo-feature">
+            <i class="ti ti-check"></i> Valor: 25.000 a 2.000.000 MT
+          </div>
+          <div class="tipo-feature">
+            <i class="ti ti-check"></i> Aprovação em 48 horas
+          </div>
+          <div class="tipo-feature">
+            <i class="ti ti-check"></i> Prestação fixa todos os meses
+          </div>
+        </div>
+        <a href="registro.html" class="btn btn-secundario btn-bloco">
+          Pedir Agora
+        </a>
+      </div>
+
+      <!-- Crédito Investimento — card em destaque -->
+      <div class="tipo-card destaque animar">
+        <span class="badge-popular">Mais Procurado</span>
+        <div class="tipo-icone"
+          style="background:var(--info-clara); color:var(--info)">
+          <i class="ti ti-building-store"></i>
+        </div>
+        <h3 class="tipo-nome">Crédito Investimento</h3>
+        <p class="tipo-desc">
+          Para negócios, expansão de empresa, compra de equipamentos e capital de giro.
+        </p>
+        <div class="tipo-taxa-linha">
+          <span class="taxa-num" style="color:var(--info)">1.417</span>
+          <span class="taxa-unidade">% / mês</span>
+        </div>
+        <p class="tipo-info-extra">Taxa nominal: 17% ao ano · Prazo: 12 a 84 meses</p>
+        <div class="tipo-features">
+          <div class="tipo-feature">
+            <i class="ti ti-check"></i> Valor: 50.000 a 10.000.000 MT
+          </div>
+          <div class="tipo-feature">
+            <i class="ti ti-check"></i> Prazo alargado até 84 meses
+          </div>
+          <div class="tipo-feature">
+            <i class="ti ti-check"></i> Taxa preferencial para empresas
+          </div>
+        </div>
+        <a href="registro.html" class="btn btn-primario btn-bloco">
+          Pedir Agora
+        </a>
+      </div>
+
+      <!-- Crédito Funcionário -->
+      <div class="tipo-card animar">
+        <div class="tipo-icone"
+          style="background:var(--sucesso-clara); color:var(--sucesso)">
+          <i class="ti ti-id-badge"></i>
+        </div>
+        <h3 class="tipo-nome">Func. Público e Privado</h3>
+        <p class="tipo-desc">
+          Crédito especial para trabalhadores com desconto automático no salário.
+        </p>
+        <div class="tipo-taxa-linha">
+          <span class="taxa-num" style="color:var(--sucesso)">1.250</span>
+          <span class="taxa-unidade">% / mês</span>
+        </div>
+        <p class="tipo-info-extra">Taxa nominal: 15% ao ano · Prazo: 6 a 72 meses</p>
+        <div class="tipo-features">
+          <div class="tipo-feature">
+            <i class="ti ti-check"></i> Valor: 10.000 a 1.500.000 MT
+          </div>
+          <div class="tipo-feature">
+            <i class="ti ti-check"></i> Taxa mais baixa do mercado
+          </div>
+          <div class="tipo-feature">
+            <i class="ti ti-check"></i> Desconto automático no salário
+          </div>
+        </div>
+        <a href="registro.html" class="btn btn-secundario btn-bloco"
+          style="color:var(--sucesso); border-color:var(--sucesso)">
+          Pedir Agora
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- ================================================================
+     SECÇÃO 3: SOBRE NÓS (Missão, Visão, Valores)
+     ================================================================ -->
+<section class="secao secao-clara" id="sobre">
+  <div class="container">
+
+    <div class="sobre-layout">
+
+      <!-- Texto da esquerda -->
+      <div class="sobre-texto animar">
+        <div class="secao-tag" style="margin-bottom:16px">
+          <i class="ti ti-building"></i>
+          Sobre Nós
+        </div>
+        <h2>Quem somos e o que nos move</h2>
+        <p>
+          O CréditoMZ nasceu da necessidade de tornar o crédito mais acessível
+          e transparente em Moçambique. Acreditamos que o acesso a financiamento
+          justo é um direito, não um privilégio.
+        </p>
+
+        <!-- Cards de missão e visão -->
+        <div class="mv-card">
+          <h4><i class="ti ti-target"></i> Missão</h4>
+          <p>
+            Facilitar o acesso a crédito de forma rápida, transparente e justa
+            para todos os moçambicanos.
+          </p>
+        </div>
+
+        <div class="mv-card">
+          <h4><i class="ti ti-eye"></i> Visão</h4>
+          <p>
+            Ser a plataforma de crédito digital de referência em Moçambique,
+            reduzindo as barreiras ao financiamento pessoal e empresarial.
+          </p>
+        </div>
+      </div>
+
+      <!-- Cards de valores da direita -->
+      <div class="animar">
+        <h3 style="margin-bottom:20px; font-size:1.1rem">
+          Os nossos valores
+        </h3>
+
+        <div class="valores-grid">
+          <div class="valor-item">
+            <i class="ti ti-eye"></i>
+            Transparência
+          </div>
+          <div class="valor-item">
+            <i class="ti ti-heart"></i>
+            Compromisso
+          </div>
+          <div class="valor-item">
+            <i class="ti ti-users"></i>
+            Inclusão
+          </div>
+          <div class="valor-item">
+            <i class="ti ti-bulb"></i>
+            Inovação
+          </div>
+          <div class="valor-item">
+            <i class="ti ti-shield"></i>
+            Segurança
+          </div>
+          <div class="valor-item">
+            <i class="ti ti-star"></i>
+            Excelência
+          </div>
+        </div>
+
+        <!-- Número de destaque -->
+        <div class="card-metrica" style="margin-top:24px">
+          <div class="metrica-label">Volume de crédito concedido</div>
+          <div class="metrica-valor">150M MT</div>
+          <div class="metrica-sub">desde o início das operações</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SECÇÃO 4: COMO FUNCIONA (4 passos)
+     ================================================================ -->
+<section class="secao secao-escura" id="como-funciona">
+  <div class="container">
+
+    <div class="secao-header">
+      <div class="secao-tag">
+        <i class="ti ti-list-check"></i>
+        Processo simples
+      </div>
+      <h2 class="secao-titulo">Como funciona</h2>
+      <p class="secao-desc">
+        Do registo à aprovação em 4 passos simples. Sem burocracia desnecessária.
+      </p>
+    </div>
+
+    <div class="passos-wrapper">
+
+      <div class="passo animar">
+        <div class="passo-num">1</div>
+        <i class="ti ti-user-plus passo-icone"></i>
+        <h4 class="passo-titulo">Crie a sua conta</h4>
+        <p class="passo-desc">
+          Registe-se com os seus dados pessoais, BI e comprovativo de rendimento.
+        </p>
+      </div>
+
+      <div class="passo animar">
+        <div class="passo-num">2</div>
+        <i class="ti ti-calculator passo-icone"></i>
+        <h4 class="passo-titulo">Simule e peça</h4>
+        <p class="passo-desc">
+          Escolha o tipo de crédito, valor e prazo. Veja a prestação exacta antes de pedir.
+        </p>
+      </div>
+
+      <div class="passo animar">
+        <div class="passo-num">3</div>
+        <i class="ti ti-search passo-icone"></i>
+        <h4 class="passo-titulo">Análise do pedido</h4>
+        <p class="passo-desc">
+          O nosso funcionário analisa o seu perfil e encaminha para o Gerente.
+        </p>
+      </div>
+
+      <div class="passo animar">
+        <div class="passo-num">4</div>
+        <i class="ti ti-check passo-icone"></i>
+        <h4 class="passo-titulo">Aprovação</h4>
+        <p class="passo-desc">
+          O Gerente aprova e o crédito fica disponível em até 48 horas.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================================================================
+     SECÇÃO 6: INFORMAÇÕES IMPORTANTES
+     Documentos, Requisitos e Taxas com abas
+     ================================================================ -->
+<section class="secao secao-escura" id="informacoes">
+  <div class="container">
+
+    <div class="secao-header">
+      <div class="secao-tag">
+        <i class="ti ti-file-info"></i>
+        Informações
+      </div>
+      <h2 class="secao-titulo">O que precisa saber</h2>
+      <p class="secao-desc">
+        Documentos necessários, requisitos e condições para pedir crédito.
+      </p>
+    </div>
+
+    <!-- Abas para alternar entre categorias -->
+    <!-- data-painel diz ao JS qual painel activar -->
+    <div class="info-abas">
+      <button class="info-aba activa" data-painel="painel-docs">
+        <i class="ti ti-file"></i> Documentos
+      </button>
+      <button class="info-aba" data-painel="painel-req">
+        <i class="ti ti-checklist"></i> Requisitos
+      </button>
+      <button class="info-aba" data-painel="painel-taxas">
+        <i class="ti ti-percentage"></i> Taxas e Condições
+      </button>
+    </div>
+
+    <!-- Painel 1: Documentos necessários -->
+    <div class="info-painel activo" id="painel-docs">
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-id"></i></div>
+        <div>
+          <div class="info-card-titulo">Bilhete de Identidade</div>
+          <div class="info-card-desc">BI válido ou DIRE para estrangeiros residentes.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-file-text"></i></div>
+        <div>
+          <div class="info-card-titulo">Comprovativo de Rendimento</div>
+          <div class="info-card-desc">Últimos 3 recibos de vencimento ou declaração de rendimentos.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-building-bank"></i></div>
+        <div>
+          <div class="info-card-titulo">Extracto Bancário</div>
+          <div class="info-card-desc">Extracto dos últimos 3 meses da conta principal.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-home"></i></div>
+        <div>
+          <div class="info-card-titulo">Comprovativo de Residência</div>
+          <div class="info-card-desc">Factura de água, luz ou carta de residência.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-briefcase"></i></div>
+        <div>
+          <div class="info-card-titulo">Declaração de Emprego</div>
+          <div class="info-card-desc">Carta da entidade empregadora confirmando o vínculo laboral.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-user-check"></i></div>
+        <div>
+          <div class="info-card-titulo">Dados do Fiador (opcional)</div>
+          <div class="info-card-desc">Para valores acima de 500.000 MT pode ser solicitado fiador.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Painel 2: Requisitos -->
+    <div class="info-painel" id="painel-req">
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-calendar"></i></div>
+        <div>
+          <div class="info-card-titulo">Idade mínima</div>
+          <div class="info-card-desc">18 anos completos na data do pedido.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-coin"></i></div>
+        <div>
+          <div class="info-card-titulo">Rendimento mínimo</div>
+          <div class="info-card-desc">Rendimento mensal comprovado de pelo menos 15.000 MT.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-chart-bar"></i></div>
+        <div>
+          <div class="info-card-titulo">Rácio máximo de endividamento</div>
+          <div class="info-card-desc">A prestação não pode ultrapassar 40% do rendimento mensal.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-clock"></i></div>
+        <div>
+          <div class="info-card-titulo">Tempo de emprego mínimo</div>
+          <div class="info-card-desc">Mínimo de 6 meses de vínculo laboral comprovado.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-map-pin"></i></div>
+        <div>
+          <div class="info-card-titulo">Residência em Moçambique</div>
+          <div class="info-card-desc">Residente em Moçambique com endereço comprovável.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-ban"></i></div>
+        <div>
+          <div class="info-card-titulo">Sem incidentes bancários</div>
+          <div class="info-card-desc">Não ter créditos em incumprimento no sistema financeiro.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Painel 3: Taxas e Condições -->
+    <div class="info-painel" id="painel-taxas">
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-shopping-cart"></i></div>
+        <div>
+          <div class="info-card-titulo">Consumo</div>
+          <div class="info-card-desc">Taxa mensal: 1.667% · Nominal: 20%/ano · 6 a 60 meses</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-building-store"></i></div>
+        <div>
+          <div class="info-card-titulo">Investimento</div>
+          <div class="info-card-desc">Taxa mensal: 1.417% · Nominal: 17%/ano · 12 a 84 meses</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-id-badge"></i></div>
+        <div>
+          <div class="info-card-titulo">Funcionário Público/Privado</div>
+          <div class="info-card-desc">Taxa mensal: 1.250% · Nominal: 15%/ano · 6 a 72 meses</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-receipt"></i></div>
+        <div>
+          <div class="info-card-titulo">Comissão de abertura</div>
+          <div class="info-card-desc">1% do valor do crédito, cobrada na primeira prestação.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-alert-circle"></i></div>
+        <div>
+          <div class="info-card-titulo">Mora por atraso</div>
+          <div class="info-card-desc">2% do valor da prestação em atraso por cada mês de atraso.</div>
+        </div>
+      </div>
+
+      <div class="info-card">
+        <div class="info-card-icone"><i class="ti ti-x"></i></div>
+        <div>
+          <div class="info-card-titulo">Liquidação antecipada</div>
+          <div class="info-card-desc">Permitida sem penalização após 6 meses de contrato.</div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SECÇÃO 7: SIMULADOR COMPLETO
+     ================================================================ -->
+<section class="secao secao-clara" id="simulador">
+  <div class="container">
+
+    <div class="secao-header">
+      <div class="secao-tag">
+        <i class="ti ti-calculator"></i>
+        Simulador
+      </div>
+      <h2 class="secao-titulo">Calcule a sua prestação</h2>
+      <p class="secao-desc">
+        Mova os sliders e veja em tempo real quanto pagará por mês.
+      </p>
+    </div>
+
+    <!-- Card do simulador centrado -->
+    <div style="max-width:680px; margin:0 auto">
+      <div class="card">
+
+        <!-- Abas dos tipos -->
+        <!-- classe "aba-sim" usada pelo JS para identificar as abas do simulador -->
+        <div class="abas" style="margin-bottom:28px">
+          <button class="aba aba-sim activa" data-tipo="1">Consumo</button>
+          <button class="aba aba-sim" data-tipo="2">Investimento</button>
+          <button class="aba aba-sim" data-tipo="3">Func. Público</button>
+        </div>
+
+        <!-- Slider do valor -->
+        <div class="campo-grupo">
+          <div class="slider-info">
+            <span class="slider-label">Valor pretendido</span>
+            <span class="slider-valor" id="txt-valor">250,000.00 MT</span>
+          </div>
+          <input type="range" id="slider-valor"
+            min="25000" max="2000000" step="5000" value="250000">
+          <div class="flex-entre texto-xs texto-suave" style="margin-top:6px">
+            <span>Mín: 25,000 MT</span>
+            <span>Máx: 2,000,000 MT</span>
+          </div>
+        </div>
+
+        <!-- Slider do prazo -->
+        <div class="campo-grupo">
+          <div class="slider-info">
+            <span class="slider-label">Prazo</span>
+            <span class="slider-valor" id="txt-prazo">24 meses</span>
+          </div>
+          <input type="range" id="slider-prazo"
+            min="6" max="60" step="6" value="24">
+          <div class="flex-entre texto-xs texto-suave" style="margin-top:6px">
+            <span>Mín: 6 meses</span>
+            <span id="txt-prazo-max">Máx: 60 meses</span>
+          </div>
+        </div>
+
+        <!-- Resultados em grelha de 3 colunas -->
+        <div style="display:grid; grid-template-columns:repeat(3,1fr);
+                    gap:16px; margin:24px 0; padding:24px;
+                    background:var(--fundo); border-radius:var(--raio-lg)">
+
+          <div style="text-align:center">
+            <div class="texto-xs texto-suave" style="margin-bottom:4px">
+              Taxa Mensal
+            </div>
+            <div style="font-size:1.1rem; font-weight:700;
+                        color:var(--primaria); font-family:var(--fonte-mono)"
+              id="res-taxa-mensal">1.667%
+            </div>
+          </div>
+
+          <div style="text-align:center; border-left:1px solid var(--borda);
+                      border-right:1px solid var(--borda)">
+            <div class="texto-xs texto-suave" style="margin-bottom:4px">
+              Prestação Mensal
+            </div>
+            <div style="font-size:1.4rem; font-weight:900;
+                        color:var(--primaria); font-family:var(--fonte-mono)"
+              id="res-parcela">— MT
+            </div>
+          </div>
+
+          <div style="text-align:center">
+            <div class="texto-xs texto-suave" style="margin-bottom:4px">
+              Taxa Nominal
+            </div>
+            <div style="font-size:1.1rem; font-weight:700;
+                        color:var(--primaria); font-family:var(--fonte-mono)"
+              id="res-taxa-nominal">20%
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Linha com total e juros -->
+        <div style="display:grid; grid-template-columns:1fr 1fr;
+                    gap:12px; margin-bottom:24px">
+          <div class="card-metrica">
+            <div class="metrica-label">Total a pagar</div>
+            <div class="metrica-valor" id="res-total">— MT</div>
+          </div>
+          <div class="card-metrica">
+            <div class="metrica-label">Total de juros</div>
+            <div class="metrica-valor" id="res-juros">— MT</div>
+          </div>
+        </div>
+
+        <!-- Montante (escondido mas usado pelo JS) -->
+        <span id="res-montante" style="display:none"></span>
+
+        <!-- Botão para pedir -->
+        <a href="registro.html" class="btn btn-primario btn-bloco btn-lg">
+          <i class="ti ti-arrow-right"></i>
+          Pedir este Crédito
+        </a>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ================================================================
+     SECÇÃO 9: DEPOIMENTOS
+     ================================================================ -->
+<section class="secao secao-clara" id="depoimentos">
+  <div class="container">
+
+    <div class="secao-header">
+      <div class="secao-tag">
+        <i class="ti ti-quote"></i>
+        Depoimentos
+      </div>
+      <h2 class="secao-titulo">O que dizem os nossos clientes</h2>
+      <p class="secao-desc">
+        Histórias reais de pessoas que realizaram os seus objectivos com o CréditoMZ.
+      </p>
+    </div>
+
+    <div class="depoimentos-grid">
+
+      <div class="depoimento-card animar">
+        <div class="estrelas">
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+        </div>
+        <p class="depoimento-texto">
+          Consegui expandir o meu negócio graças ao Crédito Investimento.
+          O processo foi muito rápido e transparente. Recomendo a todos os empresários.
+        </p>
+        <div class="depoimento-autor">
+          <div class="autor-avatar">AM</div>
+          <div>
+            <div class="autor-nome">António Machava</div>
+            <div class="autor-cargo">Empresário, Maputo</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="depoimento-card animar">
+        <div class="estrelas">
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+        </div>
+        <p class="depoimento-texto">
+          Como funcionária pública, consegui o crédito com a taxa mais baixa.
+          O desconto automático no salário facilitou muito a gestão das prestações.
+        </p>
+        <div class="depoimento-autor">
+          <div class="autor-avatar">GN</div>
+          <div>
+            <div class="autor-nome">Graça Nguenha</div>
+            <div class="autor-cargo">Funcionária Pública, Matola</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="depoimento-card animar">
+        <div class="estrelas">
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-filled"></i>
+          <i class="ti ti-star-half-filled"></i>
+        </div>
+        <p class="depoimento-texto">
+          Usei o plano Premium e foi excelente. O gestor ajudou-me com
+          os documentos e o processo correu muito mais rápido do que esperava.
+        </p>
+        <div class="depoimento-autor">
+          <div class="autor-avatar">FS</div>
+          <div>
+            <div class="autor-nome">Fátima Sitoe</div>
+            <div class="autor-cargo">Comerciante, Beira</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SECÇÃO 10: FAQ
+     ================================================================ -->
+<section class="secao secao-escura" id="faq">
+  <div class="container">
+
+    <div class="secao-header">
+      <div class="secao-tag">
+        <i class="ti ti-help-circle"></i>
+        FAQ
+      </div>
+      <h2 class="secao-titulo">Perguntas frequentes</h2>
+      <p class="secao-desc">
+        As dúvidas mais comuns respondidas de forma clara.
+      </p>
+    </div>
+
+    <!-- Acordeão de perguntas e respostas -->
+    <div class="faq-wrapper">
+
+      <div class="faq-item">
+        <button class="faq-pergunta">
+          Como faço para pedir crédito?
+          <i class="ti ti-plus faq-icone"></i>
+        </button>
+        <div class="faq-resposta">
+          Crie uma conta gratuita, preencha os seus dados pessoais e de rendimento,
+          escolha o tipo de crédito e submeta o pedido. A nossa equipa analisa e
+          responde em até 48 horas.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pergunta">
+          Quais documentos são necessários?
+          <i class="ti ti-plus faq-icone"></i>
+        </button>
+        <div class="faq-resposta">
+          Precisa de: Bilhete de Identidade, comprovativo de rendimento (últimos 3 recibos),
+          extracto bancário dos últimos 3 meses, comprovativo de residência e declaração
+          da entidade empregadora. Para valores acima de 500.000 MT pode ser solicitado fiador.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pergunta">
+          Quanto tempo demora a aprovação?
+          <i class="ti ti-plus faq-icone"></i>
+        </button>
+        <div class="faq-resposta">
+          O processo normal demora até 48 horas úteis. Com o plano Premium,
+          um gestor dedicado acompanha o processo e pode reduzir este prazo significativamente.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pergunta">
+          Como funciona o plano Premium?
+          <i class="ti ti-plus faq-icone"></i>
+        </button>
+        <div class="faq-resposta">
+          O plano Premium custa 500 MT/mês e inclui: consultoria personalizada,
+          apoio na preparação de documentos, sessões virtuais com um gestor dedicado,
+          notificações exclusivas sobre o estado do pedido e suporte prioritário via WhatsApp.
+          O pagamento é feito via M-Pesa.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pergunta">
+          Posso pagar antecipadamente o crédito?
+          <i class="ti ti-plus faq-icone"></i>
+        </button>
+        <div class="faq-resposta">
+          Sim. A liquidação antecipada é permitida sem qualquer penalização
+          após 6 meses de contrato. Antes dos 6 meses pode ser aplicada uma
+          comissão de liquidação antecipada.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-pergunta">
+          O que acontece se atrasar uma prestação?
+          <i class="ti ti-plus faq-icone"></i>
+        </button>
+        <div class="faq-resposta">
+          Em caso de atraso é aplicada uma mora de 2% do valor da prestação
+          por cada mês de atraso. Recomendamos contactar-nos antes do vencimento
+          caso tenha dificuldades em pagar.
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     SECÇÃO 11: CONTACTO
+     ================================================================ -->
+<section class="secao secao-clara" id="contacto">
+  <div class="container">
+
+    <div class="secao-header">
+      <div class="secao-tag">
+        <i class="ti ti-phone"></i>
+        Contacto
+      </div>
+      <h2 class="secao-titulo">Fale connosco</h2>
+      <p class="secao-desc">
+        Estamos disponíveis para ajudar em qualquer dúvida sobre o processo de crédito.
+      </p>
+    </div>
+
+    <div class="contacto-layout">
+
+      <!-- Canais de contacto -->
+      <div>
+
+        <div class="contacto-item">
+          <div class="contacto-icone" style="background:#E8F5E9; color:#25D366">
+            <i class="ti ti-brand-whatsapp"></i>
+          </div>
+          <div>
+            <div class="contacto-label">WhatsApp</div>
+            <div class="contacto-valor">+258 84 000 0000</div>
+          </div>
+        </div>
+
+        <div class="contacto-item">
+          <div class="contacto-icone">
+            <i class="ti ti-mail"></i>
+          </div>
+          <div>
+            <div class="contacto-label">Email</div>
+            <div class="contacto-valor">info@creditomz.co.mz</div>
+          </div>
+        </div>
+
+        <div class="contacto-item">
+          <div class="contacto-icone">
+            <i class="ti ti-map-pin"></i>
+          </div>
+          <div>
+            <div class="contacto-label">Localização</div>
+            <div class="contacto-valor">Av. 25 de Setembro, Maputo</div>
+          </div>
+        </div>
+
+        <div class="contacto-item">
+          <div class="contacto-icone">
+            <i class="ti ti-clock"></i>
+          </div>
+          <div>
+            <div class="contacto-label">Horário de atendimento</div>
+            <div class="contacto-valor">Segunda a Sexta, 8h às 17h</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Formulário de contacto -->
+      <div class="contacto-form">
+        <h3>Envie-nos uma mensagem</h3>
+
+        <!-- id="form-contacto" é usado pelo JS para capturar o submit -->
+        <form id="form-contacto">
+
+          <div class="campo-grupo">
+            <label for="cont-nome">Nome completo</label>
+            <input type="text" id="cont-nome" placeholder="O seu nome">
+          </div>
+
+          <div class="campo-grupo">
+            <label for="cont-email">Email</label>
+            <input type="email" id="cont-email" placeholder="O seu email">
+          </div>
+
+          <div class="campo-grupo">
+            <label for="cont-assunto">Assunto</label>
+            <input type="text" id="cont-assunto"
+              placeholder="Ex: Dúvida sobre pedido de crédito">
+          </div>
+
+          <div class="campo-grupo">
+            <label for="cont-msg">Mensagem</label>
+            <textarea id="cont-msg"
+              placeholder="Descreva a sua dúvida ou pedido..."></textarea>
+          </div>
+
+          <!-- Área onde aparecem as mensagens de erro/sucesso -->
+          <div id="msg-contacto" style="display:none"></div>
+
+          <button type="submit" class="btn btn-primario btn-bloco btn-lg">
+            <i class="ti ti-send"></i>
+            Enviar Mensagem
+          </button>
+
+        </form>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ================================================================
+     RODAPÉ
+     ================================================================ -->
+<footer class="rodape">
+  <div class="container">
+
+    <div class="rodape-grid">
+
+      <!-- Coluna 1: Sobre -->
+      <div>
+        <span class="rodape-logo">Crédito<span>MZ</span></span>
+        <p>
+          Soluções de crédito para pessoas e empresas em Moçambique.
+          Processo digital, rápido e transparente.
+        </p>
+      </div>
+
+      <!-- Coluna 2: Produtos -->
+      <div>
+        <h4>Produtos</h4>
+        <a href="#tipos-credito">Crédito Consumo</a>
+        <a href="#tipos-credito">Crédito Investimento</a>
+        <a href="#tipos-credito">Func. Público e Privado</a>
+        <a href="#planos">Plano Premium</a>
+      </div>
+
+      <!-- Coluna 3: Sistema -->
+      <div>
+        <h4>Acesso</h4>
+        <a href="login.html">Entrar na conta</a>
+        <a href="registro.html">Criar conta</a>
+        <a href="#simulador">Simulador</a>
+        <a href="#faq">FAQ</a>
+      </div>
+
+      <!-- Coluna 4: Contacto -->
+      <div>
+        <h4>Contacto</h4>
+        <a href="https://wa.me/258840000000">
+          <i class="ti ti-brand-whatsapp"></i> WhatsApp
+        </a>
+        <a href="mailto:info@creditomz.co.mz">
+          <i class="ti ti-mail"></i> Email
+        </a>
+        <a href="#contacto">
+          <i class="ti ti-map-pin"></i> Localização
+        </a>
+      </div>
+
+    </div>
+
+    <!-- Linha final -->
+    <div class="rodape-linha">
+      <span>© 2024 CréditoMZ. Todos os direitos reservados.</span>
+      <!-- Redes sociais -->
+      <div class="redes-sociais">
+        <a href="#" class="rede-social">
+          <i class="ti ti-brand-facebook"></i>
+        </a>
+        <a href="#" class="rede-social">
+          <i class="ti ti-brand-instagram"></i>
+        </a>
+        <a href="#" class="rede-social">
+          <i class="ti ti-brand-linkedin"></i>
+        </a>
+        <a href="#" class="rede-social">
+          <i class="ti ti-brand-whatsapp"></i>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</footer>
+
+
+<!-- ================================================================
+     SCRIPTS — sempre no final do body
+     A ordem importa: db.js tem que ser o primeiro
+     ================================================================ -->
+<script src="js/db.js"></script>
+<script src="js/landing.js"></script>
+
+</body>
+</html>

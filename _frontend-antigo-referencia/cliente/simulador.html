@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="pt">
+<!--
+  cliente/simulador.html — Wizard de Simulação e Pedido de Crédito
+  3 etapas: Tipo+Valor → Dados Pessoais → Documentos+Confirmação
+  Está dentro de cliente/ por isso todos os paths usam "../"
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simular Crédito — CréditoMZ</title>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cliente.css">
+  <link rel="stylesheet" href="../css/simulador.css">
+</head>
+
+<body class="dashboard-body">
+
+  <!-- ============================================================
+       SIDEBAR — igual ao dashboard.html
+       ============================================================ -->
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      <div class="nome-sistema">CréditoMZ</div>
+      <div class="subtitulo">Painel do Cliente</div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Principal</div>
+
+        <a href="dashboard.html" class="nav-item">
+          <i class="ti ti-layout-dashboard"></i>
+          Meu Painel
+        </a>
+
+        <!-- "activo" nesta página porque estamos aqui -->
+        <a href="simulador.html" class="nav-item activo">
+          <i class="ti ti-calculator"></i>
+          Simular / Pedir Crédito
+        </a>
+      </div>
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Conta</div>
+
+        <a href="#" class="nav-item">
+          <i class="ti ti-user"></i>
+          Meu Perfil
+        </a>
+
+        <a href="#" class="nav-item">
+          <i class="ti ti-help-circle"></i>
+          Ajuda
+        </a>
+      </div>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-usuario">
+        <div class="avatar" id="avatar-iniciais">--</div>
+        <div style="flex:1; min-width:0">
+          <div class="texto-sm" style="font-weight:600" id="nome-usuario">
+            A carregar...
+          </div>
+          <div class="texto-xs texto-suave" id="perfil-usuario">Cliente</div>
+        </div>
+        <button id="btn-logout" class="btn-fantasma btn-sm"
+          style="padding:6px; border:none">
+          <i class="ti ti-logout"></i>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <!-- ============================================================
+       CONTEÚDO PRINCIPAL
+       ============================================================ -->
+  <main class="conteudo-principal">
+
+    <!-- Cabeçalho -->
+    <div class="pagina-header">
+      <div>
+        <h1 class="pagina-titulo">Simulador de Crédito</h1>
+        <p class="pagina-subtitulo">
+          Simule, veja a prestação exacta e submeta o seu pedido em minutos
+        </p>
+      </div>
+    </div>
+
+    <!-- Âncora para scroll para o topo quando muda de etapa -->
+    <div id="topo-formulario"></div>
+
+
+    <!-- ==========================================================
+         TELA DE SUCESSO
+         Escondida por padrão, mostrada após submissão bem sucedida
+         O JS muda display:none para display:block quando necessário
+         ========================================================== -->
+    <div id="tela-sucesso" class="card" style="display:none; text-align:center; padding:64px 32px">
+
+      <div style="width:80px; height:80px; border-radius:50%;
+                  background:var(--sucesso-clara); color:var(--sucesso);
+                  display:flex; align-items:center; justify-content:center;
+                  font-size:36px; margin:0 auto 24px">
+        <i class="ti ti-circle-check"></i>
+      </div>
+
+      <h2 style="font-size:1.5rem; margin-bottom:12px">
+        Pedido Submetido com Sucesso!
+      </h2>
+
+      <p style="max-width:480px; margin:0 auto 8px">
+        O seu pedido de crédito foi submetido e está a ser analisado
+        pela nossa equipa.
+      </p>
+
+      <p style="max-width:480px; margin:0 auto 32px">
+        Número do seu pedido:
+        <strong id="sucesso-numero-pedido" style="color:var(--primaria);
+          font-family:var(--fonte-mono)"></strong>
+      </p>
+
+      <p style="font-size:0.875rem; color:var(--texto-suave); margin-bottom:32px">
+        Receberá uma notificação assim que o estado do seu pedido for actualizado.
+        O prazo habitual de resposta é de até 48 horas úteis.
+      </p>
+
+      <div style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap">
+        <a href="dashboard.html" class="btn btn-primario btn-lg">
+          <i class="ti ti-layout-dashboard"></i>
+          Ver no Meu Painel
+        </a>
+        <a href="simulador.html" class="btn btn-fantasma btn-lg">
+          <i class="ti ti-plus"></i>
+          Pedir Outro Crédito
+        </a>
+      </div>
+
+    </div>
+
+
+    <!-- ==========================================================
+         WIZARD CONTAINER
+         Todo o formulário em 3 etapas está aqui dentro
+         O JS esconde este div quando a submissão for bem sucedida
+         ========================================================== -->
+    <div id="wizard-container">
+
+      <!-- Layout: formulário à esquerda, resultado fixo à direita -->
+      <div class="simulador-layout">
+
+
+        <!-- ======================================================
+             COLUNA ESQUERDA — Formulário das 3 etapas
+             ====================================================== -->
+        <div>
+
+          <!-- Indicador de progresso do wizard -->
+          <div class="wizard-passos">
+
+            <div class="wizard-passo activo" id="wizard-passo-1">
+              <div class="wizard-numero">1</div>
+              <div class="wizard-label">Tipo e Valor</div>
+            </div>
+
+            <div class="wizard-linha" id="wizard-linha-1"></div>
+
+            <div class="wizard-passo" id="wizard-passo-2">
+              <div class="wizard-numero">2</div>
+              <div class="wizard-label">Dados Pessoais</div>
+            </div>
+
+            <div class="wizard-linha" id="wizard-linha-2"></div>
+
+            <div class="wizard-passo" id="wizard-passo-3">
+              <div class="wizard-numero">3</div>
+              <div class="wizard-label">Documentos</div>
+            </div>
+
+          </div>
+
+
+          <!-- --------------------------------------------------
+               ETAPA 1: Tipo de Crédito + Valor + Prazo
+               Classe "activa" mostra a etapa, JS troca entre elas
+               -------------------------------------------------- -->
+          <div class="etapa-form activa card" id="etapa-1">
+
+            <h3 class="etapa-titulo">Escolha o tipo de crédito</h3>
+            <p class="etapa-desc">
+              Seleccione o produto que melhor se adapta às suas necessidades.
+            </p>
+
+            <!-- Cards de selecção do tipo de crédito -->
+            <!-- data-tipo é lido pelo js/simulador.js -->
+            <div class="opcoes-tipo">
+
+              <!-- Tipo 1: Consumo -->
+              <div class="opcao-tipo-card seleccionado" data-tipo="1">
+                <div class="opcao-tipo-radio">
+                  <i class="ti ti-check"></i>
+                </div>
+                <div class="opcao-tipo-icone">
+                  <i class="ti ti-shopping-cart"></i>
+                </div>
+                <div class="opcao-tipo-nome">Consumo</div>
+                <div class="opcao-tipo-taxa">1.667% / mês</div>
+              </div>
+
+              <!-- Tipo 2: Investimento -->
+              <div class="opcao-tipo-card" data-tipo="2">
+                <div class="opcao-tipo-radio">
+                  <i class="ti ti-check"></i>
+                </div>
+                <div class="opcao-tipo-icone"
+                  style="background:var(--info-clara); color:var(--info)">
+                  <i class="ti ti-building-store"></i>
+                </div>
+                <div class="opcao-tipo-nome">Investimento</div>
+                <div class="opcao-tipo-taxa">1.417% / mês</div>
+              </div>
+
+              <!-- Tipo 3: Funcionário -->
+              <div class="opcao-tipo-card" data-tipo="3">
+                <div class="opcao-tipo-radio">
+                  <i class="ti ti-check"></i>
+                </div>
+                <div class="opcao-tipo-icone"
+                  style="background:var(--sucesso-clara); color:var(--sucesso)">
+                  <i class="ti ti-id-badge"></i>
+                </div>
+                <div class="opcao-tipo-nome">Func. Público</div>
+                <div class="opcao-tipo-taxa">1.250% / mês</div>
+              </div>
+
+            </div>
+
+            <!-- Slider do valor -->
+            <div class="campo-grupo">
+              <div class="slider-info">
+                <span class="slider-label">Valor pretendido</span>
+                <span class="slider-valor" id="sim-valor-texto">250,000.00 MT</span>
+              </div>
+              <input type="range" id="sim-valor"
+                min="25000" max="2000000" step="5000" value="250000">
+              <div class="flex-entre texto-xs texto-suave" style="margin-top:6px">
+                <span id="sim-valor-min">Mín: 25,000 MT</span>
+                <span id="sim-valor-max">Máx: 2,000,000 MT</span>
+              </div>
+            </div>
+
+            <!-- Slider do prazo -->
+            <div class="campo-grupo">
+              <div class="slider-info">
+                <span class="slider-label">Prazo de pagamento</span>
+                <span class="slider-valor" id="sim-prazo-texto">24 meses</span>
+              </div>
+              <input type="range" id="sim-prazo"
+                min="6" max="60" step="6" value="24">
+              <div class="flex-entre texto-xs texto-suave" style="margin-top:6px">
+                <span id="sim-prazo-min">Mín: 6 meses</span>
+                <span id="sim-prazo-max">Máx: 60 meses</span>
+              </div>
+            </div>
+
+            <!-- Campo de texto livre para descrever o motivo do crédito -->
+            <div class="campo-grupo">
+              <label for="sim-motivo">Motivo do pedido (opcional)</label>
+              <textarea id="sim-motivo"
+                placeholder="Descreva brevemente para que vai usar o crédito...">
+              </textarea>
+            </div>
+
+            <!-- Navegação da etapa 1 -->
+            <div class="wizard-navegacao">
+              <div></div>
+              <!-- div vazio para o espaço da esquerda (sem botão "Voltar") -->
+              <button class="btn btn-primario" id="btn-avancar-1">
+                Seguinte
+                <i class="ti ti-arrow-right"></i>
+              </button>
+            </div>
+
+          </div>
+          <!-- fim etapa-1 -->
+
+
+          <!-- --------------------------------------------------
+               ETAPA 2: Confirmação dos Dados Pessoais
+               Todos os campos são só de leitura (readonly)
+               Os dados vêm do registo — preenchidos pelo JS
+               -------------------------------------------------- -->
+          <div class="etapa-form card" id="etapa-2">
+
+            <h3 class="etapa-titulo">Confirme os seus dados</h3>
+            <p class="etapa-desc">
+              Estes dados foram retirados do seu perfil. Verifique se estão
+              correctos antes de avançar.
+            </p>
+
+            <!-- Grelha de dados pessoais em 2 colunas -->
+            <div class="grid grid-2" style="gap:16px; margin-bottom:24px">
+
+              <div class="campo-grupo">
+                <label>Nome completo</label>
+                <div class="dados-campo-readonly" id="dados-nome">—</div>
+              </div>
+
+              <div class="campo-grupo">
+                <label>Email</label>
+                <div class="dados-campo-readonly" id="dados-email">—</div>
+              </div>
+
+              <div class="campo-grupo">
+                <label>Número de BI</label>
+                <div class="dados-campo-readonly" id="dados-bi">—</div>
+              </div>
+
+              <div class="campo-grupo">
+                <label>Telefone</label>
+                <div class="dados-campo-readonly" id="dados-telefone">—</div>
+              </div>
+
+              <div class="campo-grupo">
+                <label>Endereço</label>
+                <div class="dados-campo-readonly" id="dados-endereco">—</div>
+              </div>
+
+              <div class="campo-grupo">
+                <label>Rendimento mensal</label>
+                <div class="dados-campo-readonly" id="dados-rendimento">—</div>
+              </div>
+
+              <div class="campo-grupo">
+                <label>Tipo de emprego</label>
+                <div class="dados-campo-readonly" id="dados-emprego">—</div>
+              </div>
+
+              <div class="campo-grupo">
+                <label>Entidade empregadora</label>
+                <div class="dados-campo-readonly" id="dados-empresa">—</div>
+              </div>
+
+            </div>
+
+            <!-- Aviso informativo sobre dados incorrectos -->
+            <div class="info-aviso">
+              <i class="ti ti-info-circle"></i>
+              Se algum dado estiver incorrecto, actualize o seu perfil antes
+              de submeter o pedido.
+            </div>
+
+            <!-- Checkbox de confirmação obrigatório -->
+            <div class="campo-grupo" style="margin-top:20px">
+              <label class="checkbox-label">
+                <input type="checkbox" id="confirmar-dados">
+                <span>
+                  Confirmo que os dados acima estão correctos e são verdadeiros.
+                </span>
+              </label>
+            </div>
+
+            <!-- Navegação da etapa 2 -->
+            <div class="wizard-navegacao">
+              <button class="btn btn-fantasma" id="btn-voltar-2">
+                <i class="ti ti-arrow-left"></i>
+                Voltar
+              </button>
+              <button class="btn btn-primario" id="btn-avancar-2">
+                Seguinte
+                <i class="ti ti-arrow-right"></i>
+              </button>
+            </div>
+
+          </div>
+          <!-- fim etapa-2 -->
+
+
+          <!-- --------------------------------------------------
+               ETAPA 3: Documentos + Confirmação Final
+               Upload simulado + resumo do pedido + submissão
+               -------------------------------------------------- -->
+          <div class="etapa-form card" id="etapa-3">
+
+            <h3 class="etapa-titulo">Documentos e confirmação</h3>
+            <p class="etapa-desc">
+              Anexe os documentos necessários.
+              <strong>BI e comprovativo de rendimento são obrigatórios.</strong>
+            </p>
+
+            <!-- Grelha de 4 cards de upload -->
+            <div class="upload-grid">
+
+              <!-- Upload 1: BI (obrigatório) -->
+              <div class="upload-card" id="upload-bi">
+                <i class="ti ti-id upload-icone"></i>
+                <div class="upload-titulo">
+                  Bilhete de Identidade
+                  <span style="color:var(--perigo)">*</span>
+                </div>
+                <div class="upload-nome-ficheiro">
+                  Clique para anexar
+                </div>
+                <!-- Input escondido, activado ao clicar no card -->
+                <input type="file" accept=".pdf,.jpg,.jpeg,.png"
+                  style="display:none">
+              </div>
+
+              <!-- Upload 2: Comprovativo de rendimento (obrigatório) -->
+              <div class="upload-card" id="upload-rendimento">
+                <i class="ti ti-file-text upload-icone"></i>
+                <div class="upload-titulo">
+                  Comprovativo de Rendimento
+                  <span style="color:var(--perigo)">*</span>
+                </div>
+                <div class="upload-nome-ficheiro">
+                  Clique para anexar
+                </div>
+                <input type="file" accept=".pdf,.jpg,.jpeg,.png"
+                  style="display:none">
+              </div>
+
+              <!-- Upload 3: Extracto bancário (opcional) -->
+              <div class="upload-card" id="upload-extracto">
+                <i class="ti ti-building-bank upload-icone"></i>
+                <div class="upload-titulo">
+                  Extracto Bancário
+                  <span class="texto-suave texto-xs">(opcional)</span>
+                </div>
+                <div class="upload-nome-ficheiro">
+                  Clique para anexar
+                </div>
+                <input type="file" accept=".pdf,.jpg,.jpeg,.png"
+                  style="display:none">
+              </div>
+
+              <!-- Upload 4: Comprovativo de residência (opcional) -->
+              <div class="upload-card" id="upload-residencia">
+                <i class="ti ti-home upload-icone"></i>
+                <div class="upload-titulo">
+                  Comprovativo de Residência
+                  <span class="texto-suave texto-xs">(opcional)</span>
+                </div>
+                <div class="upload-nome-ficheiro">
+                  Clique para anexar
+                </div>
+                <input type="file" accept=".pdf,.jpg,.jpeg,.png"
+                  style="display:none">
+              </div>
+
+            </div>
+
+            <!-- Resumo final do pedido antes de submeter -->
+            <div class="resumo-final-box">
+
+              <div class="resumo-final-titulo">
+                <i class="ti ti-clipboard-check"></i>
+                Resumo do Pedido
+              </div>
+
+              <div class="resumo-final-grid">
+
+                <div class="resumo-final-item">
+                  <span class="resumo-final-label">Tipo de crédito</span>
+                  <span class="resumo-final-valor" id="resumo-tipo">—</span>
+                </div>
+
+                <div class="resumo-final-item">
+                  <span class="resumo-final-label">Valor pedido</span>
+                  <span class="resumo-final-valor" id="resumo-valor">—</span>
+                </div>
+
+                <div class="resumo-final-item">
+                  <span class="resumo-final-label">Prazo</span>
+                  <span class="resumo-final-valor" id="resumo-prazo">—</span>
+                </div>
+
+                <div class="resumo-final-item">
+                  <span class="resumo-final-label">Prestação mensal</span>
+                  <span class="resumo-final-valor destaque"
+                    id="resumo-prestacao">—</span>
+                </div>
+
+                <div class="resumo-final-item">
+                  <span class="resumo-final-label">Total a pagar</span>
+                  <span class="resumo-final-valor" id="resumo-total">—</span>
+                </div>
+
+              </div>
+
+            </div>
+
+            <!-- Checkbox de aceitação final dos termos -->
+            <div class="campo-grupo" style="margin-top:20px">
+              <label class="checkbox-label">
+                <input type="checkbox" id="aceitar-termos-final">
+                <span>
+                  Declaro que as informações prestadas são verdadeiras e aceito
+                  os <a href="../index.html#planos">Termos e Condições</a>
+                  do CréditoMZ.
+                </span>
+              </label>
+            </div>
+
+            <!-- Navegação da etapa 3 -->
+            <div class="wizard-navegacao">
+              <button class="btn btn-fantasma" id="btn-voltar-3">
+                <i class="ti ti-arrow-left"></i>
+                Voltar
+              </button>
+              <button class="btn btn-primario btn-lg" id="btn-submeter">
+                <i class="ti ti-send"></i>
+                Submeter Pedido
+              </button>
+            </div>
+
+          </div>
+          <!-- fim etapa-3 -->
+
+        </div>
+        <!-- fim coluna esquerda -->
+
+
+        <!-- ======================================================
+             COLUNA DIREITA — Resultado fixo da simulação
+             Fica "sticky" enquanto o utilizador preenche o formulário
+             ====================================================== -->
+        <div class="resultado-coluna">
+          <div class="resultado-card">
+
+            <!-- Título do card de resultado -->
+            <div class="resultado-card-titulo">
+              <i class="ti ti-calculator" style="color:var(--primaria)"></i>
+              Resultado da Simulação
+            </div>
+
+            <!-- Destaque da prestação mensal -->
+            <div class="resultado-destaque">
+              <div class="resultado-destaque-label">Prestação Mensal</div>
+              <div class="resultado-destaque-valor" id="res-prestacao">— MT</div>
+            </div>
+
+            <!-- Linha a linha do resumo financeiro -->
+            <div class="resultado-linha">
+              <span class="resultado-linha-label">Valor pedido</span>
+              <span class="resultado-linha-valor" id="res-valor-pedido">— MT</span>
+            </div>
+
+            <div class="resultado-linha">
+              <span class="resultado-linha-label">Taxa mensal</span>
+              <span class="resultado-linha-valor" id="res-taxa-mensal">—%</span>
+            </div>
+
+            <div class="resultado-linha">
+              <span class="resultado-linha-label">Taxa nominal</span>
+              <span class="resultado-linha-valor" id="res-taxa-nominal">—%</span>
+            </div>
+
+            <div class="resultado-linha">
+              <span class="resultado-linha-label">Prazo</span>
+              <span class="resultado-linha-valor" id="res-prazo">— meses</span>
+            </div>
+
+            <div class="resultado-linha">
+              <span class="resultado-linha-label">Total de juros</span>
+              <span class="resultado-linha-valor" id="res-total-juros">— MT</span>
+            </div>
+
+            <div class="resultado-linha">
+              <span class="resultado-linha-label">Total a pagar</span>
+              <span class="resultado-linha-valor" id="res-total-pagar">— MT</span>
+            </div>
+
+            <!-- Score de crédito baseado no rendimento do cliente -->
+            <div class="score-card" id="score-card">
+
+              <div class="score-topo">
+                <span class="score-nivel" id="score-nivel">—</span>
+                <span class="score-numero" id="score-numero">—/100</span>
+              </div>
+
+              <div class="progresso-wrapper">
+                <div class="progresso-barra" id="score-barra"
+                  style="width:0%">
+                </div>
+              </div>
+
+              <div class="texto-xs texto-suave" style="margin-top:6px">
+                Score baseado na relação prestação / rendimento mensal
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+        <!-- fim coluna direita -->
+
+      </div>
+      <!-- fim simulador-layout -->
+
+    </div>
+    <!-- fim wizard-container -->
+
+  </main>
+  <!-- fim conteudo-principal -->
+
+
+  <!-- Scripts na ordem correcta -->
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/simulador.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,530 @@
+/* ================================================================
+   css/funcionario.css
+   Estilos do Dashboard do Funcionário
+   Requer css/style.css carregado antes
+   ================================================================ */
+
+
+/* ----------------------------------------------------------------
+   LAYOUT GERAL
+   ---------------------------------------------------------------- */
+
+.dashboard-body {
+  display: flex;
+  background: var(--fundo);
+  min-height: 100vh;
+}
+
+
+/* ----------------------------------------------------------------
+   CABEÇALHO DA PÁGINA
+   ---------------------------------------------------------------- */
+
+.header-acoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-notificacao {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid var(--borda);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: var(--texto-secundario);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-notificacao:hover {
+  background: var(--fundo);
+  color: var(--primaria);
+}
+
+.notif-contador {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  background: var(--perigo);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid white;
+}
+
+.notif-contador.escondido {
+  display: none;
+}
+
+
+/* ----------------------------------------------------------------
+   CARDS DE RESUMO DO TOPO
+   ---------------------------------------------------------------- */
+
+.resumo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 32px;
+}
+
+
+/* ----------------------------------------------------------------
+   FILTROS E PESQUISA
+   ---------------------------------------------------------------- */
+
+.filtros-barra {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.pesquisa-wrapper {
+  position: relative;
+  flex: 1;
+  min-width: 220px;
+}
+
+.pesquisa-icone {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--texto-suave);
+  font-size: 16px;
+  pointer-events: none;
+}
+
+.pesquisa-input {
+  width: 100%;
+  padding: 9px 12px 9px 36px;
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio);
+  font-size: 0.875rem;
+  font-family: var(--fonte);
+  color: var(--texto-primario);
+  background: white;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.pesquisa-input:focus {
+  border-color: var(--primaria);
+  box-shadow: 0 0 0 3px rgba(224, 90, 30, 0.10);
+}
+
+.filtros-status {
+  display: flex;
+  gap: 8px;
+}
+
+.filtro-btn {
+  padding: 8px 16px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  border: 1px solid var(--borda-forte);
+  background: white;
+  color: var(--texto-secundario);
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: var(--fonte);
+  white-space: nowrap;
+}
+
+.filtro-btn:hover {
+  border-color: var(--primaria);
+  color: var(--primaria);
+}
+
+.filtro-btn.activo {
+  background: var(--primaria);
+  border-color: var(--primaria);
+  color: white;
+}
+
+
+/* ----------------------------------------------------------------
+   TABELA DE PEDIDOS
+   ---------------------------------------------------------------- */
+
+.tabela-pedidos-wrapper {
+  background: white;
+  border-radius: var(--raio-xl);
+  border: 1px solid var(--borda);
+  overflow: hidden;
+}
+
+.tabela-pedidos-header {
+  padding: 18px 24px;
+  border-bottom: 1px solid var(--borda);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tabela-pedidos-titulo {
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+/* Linha de pedido na tabela ao hover */
+.linha-pedido {
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.linha-pedido:hover {
+  background: var(--primaria-clara);
+}
+
+/* Info do cliente na tabela */
+.cliente-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.cliente-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--primaria-clara);
+  color: var(--primaria);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cliente-nome {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--texto-primario);
+}
+
+.cliente-email {
+  font-size: 0.75rem;
+  color: var(--texto-suave);
+}
+
+/* Estado vazio da tabela */
+.tabela-vazia {
+  text-align: center;
+  padding: 60px 24px;
+  color: var(--texto-suave);
+}
+
+.tabela-vazia i {
+  font-size: 40px;
+  opacity: 0.4;
+  margin-bottom: 12px;
+}
+
+.tabela-vazia p {
+  font-size: 0.875rem;
+}
+
+
+/* ----------------------------------------------------------------
+   MODAL DE ANÁLISE DO PEDIDO
+   ---------------------------------------------------------------- */
+
+.modal-secao {
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--borda);
+}
+
+.modal-secao:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.modal-secao-titulo {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--texto-suave);
+  margin-bottom: 14px;
+}
+
+/* Grelha de dados no modal */
+.modal-dados-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.modal-dado {
+  background: var(--fundo);
+  padding: 12px 14px;
+  border-radius: var(--raio);
+}
+
+.modal-dado-label {
+  font-size: 0.72rem;
+  color: var(--texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 4px;
+}
+
+.modal-dado-valor {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--texto-primario);
+  font-family: var(--fonte-mono);
+}
+
+/* Score de crédito no modal */
+.score-linha {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  background: var(--fundo);
+  border-radius: var(--raio);
+  margin-bottom: 16px;
+}
+
+.score-num-grande {
+  font-size: 2rem;
+  font-weight: 900;
+  font-family: var(--fonte-mono);
+  color: var(--primaria);
+  line-height: 1;
+}
+
+.score-info-texto {
+  flex: 1;
+}
+
+.score-nivel-texto {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.score-desc {
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+/* Documentos do cliente */
+.docs-lista {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+}
+
+.doc-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: var(--fundo);
+  border-radius: var(--raio);
+  font-size: 0.82rem;
+  border: 1px solid var(--borda);
+}
+
+.doc-item i {
+  color: var(--primaria);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* Botão de encaminhar — o único que o funcionário pode fazer */
+.btn-encaminhar {
+  background: var(--info);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--raio);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--fonte);
+  transition: all 0.15s;
+  width: 100%;
+  justify-content: center;
+  margin-top: 16px;
+}
+
+.btn-encaminhar:hover {
+  background: #0F4E8A;
+  transform: translateY(-1px);
+}
+
+.btn-encaminhar:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Aviso que o funcionário NÃO pode rejeitar */
+.aviso-permissao {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 16px;
+  background: var(--aviso-clara);
+  border: 1px solid rgba(186, 117, 23, 0.25);
+  border-radius: var(--raio);
+  font-size: 0.82rem;
+  color: var(--aviso);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+.aviso-permissao i {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+/* Campo de observações que o funcionário pode escrever */
+.campo-observacoes {
+  margin-top: 16px;
+}
+
+.campo-observacoes label {
+  display: block;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--texto-primario);
+  margin-bottom: 8px;
+}
+
+.campo-observacoes textarea {
+  width: 100%;
+  padding: 10px 14px;
+  border: 1px solid var(--borda-forte);
+  border-radius: var(--raio);
+  font-size: 0.875rem;
+  font-family: var(--fonte);
+  color: var(--texto-primario);
+  resize: vertical;
+  min-height: 90px;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.campo-observacoes textarea:focus {
+  border-color: var(--primaria);
+  box-shadow: 0 0 0 3px rgba(224, 90, 30, 0.10);
+}
+
+
+/* ----------------------------------------------------------------
+   PAINEL DE NOTIFICAÇÕES
+   ---------------------------------------------------------------- */
+
+.painel-notificacoes {
+  position: absolute;
+  top: 56px;
+  right: 32px;
+  width: 360px;
+  max-height: 420px;
+  overflow-y: auto;
+  background: white;
+  border-radius: var(--raio-lg);
+  border: 1px solid var(--borda);
+  box-shadow: var(--sombra-lg);
+  z-index: 300;
+  display: none;
+}
+
+.painel-notificacoes.visivel {
+  display: block;
+}
+
+.painel-notif-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--borda);
+  font-weight: 700;
+  font-size: 0.9rem;
+}
+
+.notif-item {
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--borda);
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.notif-item:last-child {
+  border-bottom: none;
+}
+
+.notif-icone {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: var(--info-clara);
+  color: var(--info);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+.notif-titulo {
+  font-size: 0.85rem;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.notif-texto {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  line-height: 1.4;
+}
+
+.notif-tempo {
+  font-size: 0.7rem;
+  color: var(--texto-suave);
+  margin-top: 4px;
+}
+
+
+/* ----------------------------------------------------------------
+   RESPONSIVIDADE
+   ---------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .resumo-grid      { grid-template-columns: repeat(2, 1fr); }
+  .modal-dados-grid { grid-template-columns: repeat(2, 1fr); }
+  .docs-lista       { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .resumo-grid           { grid-template-columns: 1fr; }
+  .filtros-barra         { flex-direction: column; align-items: stretch; }
+  .filtros-status        { flex-wrap: wrap; }
+  .painel-notificacoes   { width: 92vw; right: 4vw; }
+  .modal-dados-grid      { grid-template-columns: 1fr; }
+}

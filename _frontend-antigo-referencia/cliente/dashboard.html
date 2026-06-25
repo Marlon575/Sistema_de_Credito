@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="pt">
+<!--
+  cliente/dashboard.html — Painel principal do Cliente
+  Mostra resumo, lista de empréstimos e modal de detalhes
+  Está dentro da pasta cliente/, por isso os caminhos usam "../"
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meu Painel — CréditoMZ</title>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <!-- Caminhos com "../" porque este ficheiro está dentro da pasta cliente/ -->
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/cliente.css">
+</head>
+
+<body class="dashboard-body">
+
+  <!-- ============================================================
+       SIDEBAR — Menu lateral fixo
+       ============================================================ -->
+  <aside class="sidebar">
+
+    <!-- Logo -->
+    <div class="sidebar-logo">
+      <div class="nome-sistema">Crédito<span class="texto-primario">MZ</span></div>
+      <div class="subtitulo">Painel do Cliente</div>
+    </div>
+
+    <!-- Menu de navegação -->
+    <nav class="sidebar-nav">
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Principal</div>
+
+        <a href="dashboard.html" class="nav-item activo">
+          <i class="ti ti-home"></i>
+          Meu Painel
+        </a>
+
+        <a href="simulador.html" class="nav-item">
+          <i class="ti ti-calculator"></i>
+          Pedir Crédito
+        </a>
+
+      </div>
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Conta</div>
+
+        <a href="#" class="nav-item" id="link-perfil">
+          <i class="ti ti-user"></i>
+          Meu Perfil
+        </a>
+
+        <a href="../index.html" class="nav-item">
+          <i class="ti ti-arrow-left"></i>
+          Voltar ao Site
+        </a>
+
+      </div>
+
+    </nav>
+
+    <!-- Rodapé da sidebar com info do utilizador -->
+    <div class="sidebar-footer">
+      <div class="sidebar-usuario">
+
+        <!-- Avatar com iniciais (preenchido via JS) -->
+        <div class="avatar" id="avatar-iniciais">--</div>
+
+        <div class="flex-col" style="gap:0">
+          <!-- Estes textos são preenchidos pelo js/cliente.js -->
+          <span id="nome-usuario" class="texto-sm" style="font-weight:600">
+            Carregando...
+          </span>
+          <span id="perfil-usuario" class="texto-xs texto-suave">
+            Cliente
+          </span>
+        </div>
+
+        <!-- Botão de logout -->
+        <button id="btn-logout" class="btn btn-fantasma btn-sm" style="padding:6px 10px">
+          <i class="ti ti-logout"></i>
+        </button>
+
+      </div>
+    </div>
+
+  </aside>
+
+
+  <!-- ============================================================
+       CONTEÚDO PRINCIPAL
+       ============================================================ -->
+  <main class="conteudo-principal">
+
+    <!-- Cabeçalho da página -->
+    <div class="pagina-header flex-entre">
+      <div>
+        <h1 class="pagina-titulo">Meu Painel</h1>
+        <p class="pagina-subtitulo">Acompanhe os seus pedidos de crédito</p>
+      </div>
+
+      <!-- Botão de notificações -->
+      <div class="header-acoes">
+        <button class="btn-notificacao" id="btn-notificacoes">
+          <i class="ti ti-bell"></i>
+          <!-- Bolinha de contador — JS actualiza o número e visibilidade -->
+          <span class="notif-contador escondido" id="notif-contador">0</span>
+        </button>
+      </div>
+    </div>
+
+
+    <!-- ============================================================
+         CARTÕES DE RESUMO
+         Os números são preenchidos pelo js/cliente.js
+         ============================================================ -->
+    <div class="resumo-grid">
+
+      <div class="card-metrica">
+        <div class="metrica-label">Pedidos Pendentes</div>
+        <div class="metrica-valor" id="resumo-pendentes">0</div>
+        <div class="metrica-sub">à espera de análise</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Empréstimos Activos</div>
+        <div class="metrica-valor" id="resumo-activos">0</div>
+        <div class="metrica-sub">a pagar mensalmente</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Empréstimos Quitados</div>
+        <div class="metrica-valor" id="resumo-quitados">0</div>
+        <div class="metrica-sub">totalmente pagos</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Dívida Total</div>
+        <div class="metrica-valor" id="resumo-divida">0.00 MT</div>
+        <div class="metrica-sub">valor ainda em falta</div>
+      </div>
+
+    </div>
+
+
+    <!-- ============================================================
+         CARD DE AÇÃO RÁPIDA — Pedir novo crédito
+         ============================================================ -->
+    <div class="acao-rapida-card">
+      <div class="acao-rapida-texto">
+        <h3>Precisa de mais crédito?</h3>
+        <p>
+          Simule um novo empréstimo em poucos minutos e acompanhe
+          o estado do seu pedido em tempo real.
+        </p>
+      </div>
+      <a href="simulador.html" class="btn-acao-rapida">
+        <i class="ti ti-plus"></i>
+        Pedir Novo Crédito
+      </a>
+    </div>
+
+
+    <!-- ============================================================
+         LISTA DE EMPRÉSTIMOS COM FILTROS
+         ============================================================ -->
+    <div class="secao-titulo-linha">
+      <h3>Os meus pedidos</h3>
+
+      <!-- Botões de filtro — data-filtro é lido pelo JS -->
+      <div class="filtros-status">
+        <button class="filtro-btn activo" data-filtro="todos">Todos</button>
+        <button class="filtro-btn" data-filtro="pendente">Pendentes</button>
+        <button class="filtro-btn" data-filtro="ativo">Activos</button>
+        <button class="filtro-btn" data-filtro="quitado">Quitados</button>
+        <button class="filtro-btn" data-filtro="rejeitado">Rejeitados</button>
+      </div>
+    </div>
+
+    <!-- Este container é preenchido dinamicamente pelo js/cliente.js -->
+    <div id="lista-emprestimos">
+      <!-- Os cards de empréstimo são inseridos aqui via JavaScript -->
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+       PAINEL DE NOTIFICAÇÕES (dropdown escondido por padrão)
+       ============================================================ -->
+  <div class="painel-notificacoes" id="painel-notificacoes">
+    <div class="painel-notif-header">Notificações</div>
+    <div id="lista-notificacoes">
+      <!-- Preenchido via JavaScript -->
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       MODAL DE DETALHES DO EMPRÉSTIMO
+       Escondido por padrão, JS adiciona a classe "visivel"
+       ============================================================ -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" style="max-width:680px">
+
+      <div class="modal-header">
+        <div>
+          <h3 class="modal-titulo" id="modal-tipo-nome">Tipo de Crédito</h3>
+          <span class="badge" id="modal-status">Status</span>
+        </div>
+        <button class="modal-fechar" id="btn-fechar-modal">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+
+      <!-- Resumo rápido no topo do modal -->
+      <div class="modal-resumo-grid">
+
+        <div class="card-metrica">
+          <div class="metrica-label">Valor Pedido</div>
+          <div class="metrica-valor" id="modal-valor" style="font-size:1.2rem">0 MT</div>
+        </div>
+
+        <div class="card-metrica">
+          <div class="metrica-label">Prestação Mensal</div>
+          <div class="metrica-valor" id="modal-parcela" style="font-size:1.2rem">0 MT</div>
+        </div>
+
+        <div class="card-metrica">
+          <div class="metrica-label">Total a Pagar</div>
+          <div class="metrica-valor" id="modal-total" style="font-size:1.2rem">0 MT</div>
+        </div>
+
+      </div>
+
+      <!-- Abas: Tabela de Amortização vs Histórico -->
+      <div class="modal-abas">
+        <button class="modal-aba activa" data-painel="painel-amortizacao">
+          <i class="ti ti-table"></i> Amortização
+        </button>
+        <button class="modal-aba" data-painel="painel-historico">
+          <i class="ti ti-history"></i> Histórico
+        </button>
+      </div>
+
+      <!-- Painel 1: Tabela de Amortização -->
+      <div class="modal-painel activo" id="painel-amortizacao">
+        <div class="tabela-wrapper" style="max-height:320px; overflow-y:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Mês</th>
+                <th>Prestação</th>
+                <th>Juros</th>
+                <th>Capital</th>
+                <th>Saldo</th>
+              </tr>
+            </thead>
+            <!-- Preenchido dinamicamente pelo js/cliente.js -->
+            <tbody id="tabela-amortizacao-corpo"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Painel 2: Histórico de Acções -->
+      <div class="modal-painel" id="painel-historico">
+        <div id="historico-lista" style="max-height:320px; overflow-y:auto">
+          <!-- Preenchido dinamicamente pelo js/cliente.js -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       SCRIPTS — pela ordem correcta
+       Caminhos com "../" porque o ficheiro está dentro de cliente/
+       ============================================================ -->
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/cliente.js"></script>
+
+</body>
+</html>

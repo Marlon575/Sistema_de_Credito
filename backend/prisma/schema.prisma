@@ -1,0 +1,218 @@
+// =============================================================
+// schema.prisma — Desenho da base de dados do CréditoMZ
+//
+// Este ficheiro descreve todas as "tabelas" (chamadas "models"
+// no Prisma) que vão existir na base de dados PostgreSQL.
+//
+// Depois de editar este ficheiro, corremos:
+//   npx prisma migrate dev --name nome_da_alteracao
+// e o Prisma cria/atualiza as tabelas reais na base de dados.
+// =============================================================
+
+// ---- Configuração do gerador de código ----
+// Isto diz ao Prisma para gerar, dentro de node_modules, o código
+// TypeScript com os tipos e funções para falarmos com a BD.
+generator client {
+  provider = "prisma-client-js"
+}
+
+// ---- Configuração da ligação à base de dados ----
+// O Prisma lê a DATABASE_URL do ficheiro .env (nunca escrevemos
+// a password aqui directamente).
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// =============================================================
+// ENUMS — listas fixas de valores possíveis
+// =============================================================
+
+// Os 4 perfis de utilizador do sistema.
+enum Perfil {
+  ADMIN
+  GERENTE
+  FUNCIONARIO
+  CLIENTE
+}
+
+// Os estados possíveis de um pedido de empréstimo, do início ao fim.
+enum StatusEmprestimo {
+  PENDENTE // acabou de ser criado pelo cliente
+  EM_ANALISE // funcionário está a analisar
+  APROVADO // gerente aprovou
+  REJEITADO // gerente rejeitou (com motivo obrigatório)
+  ATIVO // está a ser pago em prestações
+  QUITADO // todas as prestações foram pagas
+}
+
+// =============================================================
+// MODELS — as tabelas da base de dados
+// =============================================================
+
+// ---- Usuario: qualquer pessoa que usa o sistema ----
+// Pode ser cliente, funcionário, gerente ou admin (campo "perfil").
+model Usuario {
+  id               Int      @id @default(autoincrement())
+  nome             String
+  email            String   @unique // não pode haver dois utilizadores com o mesmo email
+  senhaHash        String // a password nunca é guardada em texto simples, só o seu "hash" (encriptada)
+  perfil           Perfil
+  ativo            Boolean  @default(true) // permite ao admin desativar contas sem as apagar
+  bi               String? // número de Bilhete de Identidade (opcional, "?" significa que pode ser nulo)
+  telefone         String?
+  endereco         String?
+  rendimentoMensal Float? // usado para calcular o score de crédito do cliente
+  tipoEmprego      String?
+  emprego          String?
+  dataCriacao      DateTime @default(now()) // preenchido automaticamente na criação
+
+  // Relações: um utilizador pode ter vários empréstimos, notificações e refresh tokens.
+  // Isto não cria colunas na tabela Usuario - é o Prisma a saber como "ligar" as tabelas.
+  emprestimosComoCliente Emprestimo[]    @relation("EmprestimosDoCliente")
+  notificacoes           Notificacao[]
+  refreshTokens          RefreshToken[]
+
+  @@map("usuarios") // nome real da tabela na base de dados (em minúsculas, plural)
+}
+
+// ---- TipoEmprestimo: os 3 tipos de crédito disponíveis ----
+// (Consumo, Investimento, Funcionário Público/Privado)
+model TipoEmprestimo {
+  id          Int    @id @default(autoincrement())
+  nome        String
+  descricao   String
+  taxaMensal  Float // ex: 1.667 significa 1.667% ao mês
+  taxaNominal Float // ex: 20 significa 20% ao ano
+  prazoMin    Int // prazo mínimo em meses
+  prazoMax    Int // prazo máximo em meses
+  valorMin    Float // valor mínimo do empréstimo, em Meticais (MT)
+  valorMax    Float // valor máximo do empréstimo, em Meticais (MT)
+
+  emprestimos Emprestimo[]
+
+  @@map("tipos_emprestimo")
+}
+
+// ---- Emprestimo: cada pedido de crédito feito por um cliente ----
+model Emprestimo {
+  id     Int     @id @default(autoincrement())
+
+  // -- Quem pediu --
+  clienteId Int
+  cliente   Usuario @relation("EmprestimosDoCliente", fields: [clienteId], references: [id])
+
+  // -- Que tipo de crédito e condições --
+  tipoId      Int
+  tipo        TipoEmprestimo @relation(fields: [tipoId], references: [id])
+  valor       Float // valor pedido, em MT
+  prazo       Int // prazo escolhido, em meses
+  taxaMensal  Float // taxa aplicada no momento do pedido (copiada do TipoEmprestimo)
+  taxaNominal Float
+
+  // -- Resultado do cálculo financeiro (método Price/Francês) --
+  valorParcela Float // valor de cada prestação mensal
+  valorTotal   Float // valor total a pagar no fim (capital + juros)
+  totalJuros   Float // total de juros pagos no fim
+
+  // -- Estado do pedido --
+  status         StatusEmprestimo @default(PENDENTE)
+  motivoRejeicao String? // obrigatório só quando o gerente rejeita
+
+  // -- Acompanhamento pelo funcionário --
+  observacoesFuncionario String?
+  funcionarioId          Int?
+  funcionarioNome        String? // guardamos o nome também, para histórico (caso o funcionário seja apagado/desativado depois)
+
+  // -- Decisão do gerente --
+  gerenteId   Int?
+  gerenteNome String?
+
+  // -- Acompanhamento do pagamento --
+  parcelasPagas Int @default(0) // quantas prestações já foram pagas
+
+  // -- Datas --
+  dataPedido      DateTime  @default(now())
+  dataAtualizacao DateTime  @updatedAt // o Prisma atualiza isto automaticamente sempre que o registo é alterado
+  dataDecisao     DateTime? // preenchida quando o gerente aprova ou rejeita
+
+  // -- Relações com outras tabelas --
+  documentos   Documento[]
+  pagamentos   Pagamento[]
+  historico    HistoricoEmprestimo[]
+  notificacoes Notificacao[]
+
+  @@map("emprestimos")
+}
+
+// ---- Pagamento: cada prestação paga de um empréstimo ----
+model Pagamento {
+  id            Int        @id @default(autoincrement())
+  emprestimoId  Int
+  emprestimo    Emprestimo @relation(fields: [emprestimoId], references: [id])
+  valorPago     Float
+  numeroParcela Int // qual número de prestação isto representa (1ª, 2ª, etc.)
+  dataPagamento DateTime   @default(now())
+  registadoPor  String // nome de quem registou o pagamento no sistema
+
+  @@map("pagamentos")
+}
+
+// ---- Documento: ficheiros enviados pelo cliente (BI, comprovativo, etc.) ----
+model Documento {
+  id           Int        @id @default(autoincrement())
+  emprestimoId Int
+  emprestimo   Emprestimo @relation(fields: [emprestimoId], references: [id])
+  tipo         String // ex: "BI", "Comprovativo de Rendimento"
+  nomeOriginal String // nome do ficheiro como o cliente o enviou
+  caminho      String // onde o ficheiro está guardado no servidor
+  dataUpload   DateTime   @default(now())
+
+  @@map("documentos")
+}
+
+// ---- HistoricoEmprestimo: registo de cada ação tomada num pedido ----
+// Serve para mostrar uma "linha do tempo" de tudo o que aconteceu
+// com um pedido (criado, encaminhado, aprovado, etc.)
+model HistoricoEmprestimo {
+  id           Int        @id @default(autoincrement())
+  emprestimoId Int
+  emprestimo   Emprestimo @relation(fields: [emprestimoId], references: [id])
+  acao         String // ex: "Pedido criado", "Encaminhado ao gerente"
+  autor        String // nome de quem realizou a ação
+  data         DateTime   @default(now())
+
+  @@map("historico_emprestimos")
+}
+
+// ---- Notificacao: avisos mostrados a um utilizador ----
+// Ex: funcionário é avisado de novo pedido, cliente é avisado da decisão.
+model Notificacao {
+  id           Int         @id @default(autoincrement())
+  usuarioId    Int
+  usuario      Usuario     @relation(fields: [usuarioId], references: [id])
+  emprestimoId Int?
+  emprestimo   Emprestimo? @relation(fields: [emprestimoId], references: [id])
+  titulo       String
+  mensagem     String
+  lida         Boolean     @default(false)
+  data         DateTime    @default(now())
+
+  @@map("notificacoes")
+}
+
+// ---- RefreshToken: tokens de longa duração usados para renovar o login ----
+// Quando um utilizador faz login, recebe um "access token" (dura pouco,
+// 15 min) e um "refresh token" (dura mais, 7 dias). Quando o access
+// token expira, o refresh token (guardado aqui) permite gerar um novo
+// sem que o utilizador tenha de fazer login outra vez.
+model RefreshToken {
+  id        Int      @id @default(autoincrement())
+  token     String   @unique
+  usuarioId Int
+  usuario   Usuario  @relation(fields: [usuarioId], references: [id])
+  expiraEm  DateTime
+  criado    DateTime @default(now())
+
+  @@map("refresh_tokens")
+}

@@ -1,0 +1,1155 @@
+/* ================================================================
+   css/landing.css
+   Estilos da Landing Page SPA do CréditoMZ
+   Requer css/style.css carregado antes
+   ================================================================ */
+
+
+/* ----------------------------------------------------------------
+   NAVBAR FIXA
+   Fica sempre visível no topo durante o scroll
+   ---------------------------------------------------------------- */
+
+.nav-topo {
+  position: fixed;              /* Cola ao topo da janela */
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  z-index: 1000;                /* Fica por cima de tudo */
+  transition: all 0.3s ease;   /* Animação suave ao fazer scroll */
+}
+
+/* Estado inicial: navbar transparente sobre a imagem hero */
+.nav-topo.transparente {
+  background: transparent;
+  border-bottom: none;
+}
+
+/* Após scroll: navbar fica branca com sombra */
+.nav-topo.solida {
+  background: rgba(255, 255, 255, 0.97);
+  border-bottom: 1px solid var(--borda);
+  box-shadow: var(--sombra-sm);
+}
+
+/* Logo do sistema */
+.nav-logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: white;                 /* Branco sobre a imagem hero */
+  letter-spacing: -0.03em;
+  transition: color 0.3s;
+}
+
+/* Quando a navbar fica sólida, o logo fica laranja */
+.nav-topo.solida .nav-logo {
+  color: var(--primaria);
+}
+
+/* "MZ" em destaque no logo */
+.nav-logo span {
+  color: #da6200f1; /* Semi-transparente no hero */
+  transition: color 0.3s;
+}
+
+.nav-topo.solida .nav-logo span {
+  color: var(--texto-primario);    /* Preto quando navbar sólida */
+}
+
+/* Links de navegação do centro */
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 36px;
+}
+
+.nav-links a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85); /* Branco semi-transparente no hero */
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.nav-links a:hover {
+  color: white;
+}
+
+/* Quando navbar sólida, links ficam escuros */
+.nav-topo.solida .nav-links a {
+  color: var(--texto-secundario);
+}
+
+.nav-topo.solida .nav-links a:hover {
+  color: var(--primaria);
+}
+
+/* Botões da direita */
+.nav-botoes {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Botão "Entrar" — contorno branco no hero */
+.btn-nav-entrar {
+  padding: 8px 20px;
+  border-radius: var(--raio);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: white;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-nav-entrar:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: white;
+  color: white;
+}
+
+/* Quando navbar sólida */
+.nav-topo.solida .btn-nav-entrar {
+  color: var(--texto-secundario);
+  border-color: var(--borda-forte);
+}
+
+.nav-topo.solida .btn-nav-entrar:hover {
+  background: var(--fundo);
+  color: var(--texto-primario);
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO HERO
+   Imagem de fundo a cobrir todo o ecrã
+   ---------------------------------------------------------------- */
+
+.hero {
+  min-height: 100vh;            /* Ocupa toda a altura do ecrã */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+}
+
+/* Imagem de fundo do hero */
+.hero-bg {
+  position: absolute;
+  inset: 0;                     /* Cobre toda a área (top, right, bottom, left = 0) */
+  background-image: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=1920&q=80');
+  background-size: cover;       /* Cobre tudo sem distorcer */
+  background-position: center;  /* Centra a imagem */
+  background-attachment: fixed; /* Efeito parallax ao fazer scroll */
+  z-index: 0;
+}
+
+/* Camada escura sobre a imagem para o texto ser legível */
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(30, 20, 10, 0.75) 0%,   /* Escuro no topo esquerdo */
+    rgba(180, 60, 10, 0.55) 100% /* Laranja escuro no fundo direito */
+  );
+  z-index: 1;
+}
+
+/* Conteúdo do hero — fica por cima da overlay */
+.hero-conteudo {
+  position: relative;
+  z-index: 2;                   /* Por cima da overlay */
+  max-width: 780px;
+  padding: 0 24px;
+  padding-top: 70px;            /* Compensa a navbar */
+}
+
+/* Etiqueta pequena acima do título */
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: white;
+  padding: 8px 18px;
+  border-radius: 100px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 28px;
+  backdrop-filter: blur(8px);  /* Efeito vidro fosco */
+}
+
+/* Título principal do hero */
+.hero-titulo {
+  font-size: 3.5rem;
+  font-weight: 900;
+  line-height: 1.1;
+  color: white;
+  letter-spacing: -0.03em;
+  margin-bottom: 20px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.3); /* Sombra para legibilidade */
+}
+
+/* Palavra em destaque laranja dentro do título */
+.hero-titulo .destaque {
+  color: #FFB085;              /* Laranja claro para contraste no fundo escuro */
+}
+
+/* Subtítulo abaixo do título */
+.hero-sub {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.7;
+  margin-bottom: 40px;
+  max-width: 580px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Linha de botões do hero */
+.hero-botoes {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 60px;
+}
+
+/* Botão principal branco */
+.btn-hero-primario {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: white;
+  color: var(--primaria);
+  border-radius: var(--raio);
+  font-size: 1rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.btn-hero-primario:hover {
+  background: var(--primaria-clara);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Botão secundário com contorno branco */
+.btn-hero-secundario {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 32px;
+  background: transparent;
+  color: white;
+  border-radius: var(--raio);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 2px solid rgba(255, 255, 255, 0.6);
+  transition: all 0.2s;
+  cursor: pointer;
+}
+
+.btn-hero-secundario:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: white;
+  transform: translateY(-2px);
+}
+
+/* Estatísticas na parte inferior do hero */
+.hero-stats {
+  display: flex;
+  gap: 48px;
+  justify-content: center;
+  padding-top: 40px;
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.hero-stat-valor {
+  font-size: 2rem;
+  font-weight: 900;
+  color: white;
+  font-family: var(--fonte-mono);
+  line-height: 1;
+}
+
+.hero-stat-label {
+  font-size: 0.78rem;
+  color: rgba(255, 255, 255, 0.65);
+  margin-top: 4px;
+}
+
+/* Seta animada que indica para fazer scroll */
+.hero-scroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 28px;
+  /* Animação de subir e descer infinitamente */
+  animation: bounce 2s infinite;
+  cursor: pointer;
+}
+
+/* Definição da animação bounce */
+@keyframes bounce {
+  0%, 100% { transform: translateX(-50%) translateY(0);    }
+  50%       { transform: translateX(-50%) translateY(10px); }
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÕES GENÉRICAS
+   Estrutura base para todas as secções da SPA
+   ---------------------------------------------------------------- */
+
+.secao {
+  padding: 96px 0;              /* Espaço generoso em cima e em baixo */
+  scroll-margin-top: 70px;      /* Offset para a navbar fixa não tapar o título */
+}
+
+/* Fundo alternado para separar visualmente as secções */
+.secao-clara  { background: white; }
+.secao-escura { background: var(--fundo); }
+
+/* Cabeçalho de cada secção */
+.secao-header {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto 64px;
+}
+
+/* Etiqueta colorida acima do título */
+.secao-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primaria-clara);
+  color: var(--primaria);
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;    /* Letras maiúsculas */
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+
+.secao-titulo {
+  font-size: 2.2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--texto-primario);
+  margin-bottom: 14px;
+}
+
+.secao-desc {
+  font-size: 1rem;
+  color: var(--texto-secundario);
+  line-height: 1.7;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO INÍCIO (O que é, quem usa, benefícios)
+   ---------------------------------------------------------------- */
+
+/* Grelha de 3 cards de benefícios */
+.beneficios-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* Card de benefício individual */
+.beneficio-card {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  padding: 32px 28px;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Linha colorida no topo do card */
+.beneficio-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: var(--primaria);
+  transform: scaleX(0);         /* Começa escondida */
+  transition: transform 0.3s;
+}
+
+/* A linha aparece ao passar o rato */
+.beneficio-card:hover::before {
+  transform: scaleX(1);
+}
+
+.beneficio-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--sombra-lg);
+}
+
+/* Ícone do benefício */
+.beneficio-icone {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--raio-lg);
+  background: var(--primaria-clara);
+  color: var(--primaria);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  margin-bottom: 20px;
+}
+
+.beneficio-titulo {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  color: var(--texto-primario);
+}
+
+.beneficio-desc {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+  line-height: 1.65;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO SOBRE NÓS (Missão, Visão, Valores)
+   ---------------------------------------------------------------- */
+
+/* Layout: texto à esquerda, cards à direita */
+.sobre-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.sobre-texto h2 {
+  font-size: 2rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+}
+
+.sobre-texto p {
+  font-size: 1rem;
+  line-height: 1.8;
+  margin-bottom: 32px;
+}
+
+/* Card individual de missão ou visão */
+.mv-card {
+  background: var(--fundo);
+  border-radius: var(--raio-lg);
+  padding: 24px;
+  margin-bottom: 16px;
+  border-left: 3px solid var(--primaria); /* Linha laranja à esquerda */
+}
+
+.mv-card h4 {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--primaria);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+
+.mv-card p {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Grelha dos 4 valores */
+.valores-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-top: 24px;
+}
+
+/* Cada valor */
+.valor-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  background: rgb(255, 255, 255);
+  border-radius: var(--raio);
+  border: 1px solid #111111;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--texto-primario);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.293);
+}
+
+.valor-item i {
+  color: var(--primaria);
+  font-size: 18px;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO COMO FUNCIONA (4 passos)
+   ---------------------------------------------------------------- */
+
+.passos-wrapper {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  position: relative;
+}
+
+/* Linha que liga os 4 passos */
+.passos-wrapper::before {
+  content: '';
+  position: absolute;
+  top: 36px;               /* Alinhada com o centro dos círculos */
+  left: 12.5%;
+  right: 12.5%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primaria), var(--aviso));
+  z-index: 0;
+}
+
+.passo {
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+
+/* Número do passo dentro do círculo */
+.passo-num {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--primaria);
+  color: white;
+  font-size: 1.5rem;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  border: 5px solid white;
+  box-shadow: 0 4px 16px rgba(233, 91, 25, 0.616);
+  transition: transform 0.2s;
+}
+
+.passo:hover .passo-num {
+  transform: scale(1.08);  /* Fica ligeiramente maior ao passar o rato */
+}
+
+.passo-icone {
+  font-size: 22px;
+  display: block;
+  margin-bottom: 14px;
+  color: var(--primaria);
+}
+
+.passo-titulo {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--texto-primario);
+  margin-bottom: 8px;
+}
+
+.passo-desc {
+  font-size: 0.82rem;
+  color: var(--texto-suave);
+  line-height: 1.6;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO TIPOS DE CRÉDITO
+   ---------------------------------------------------------------- */
+
+.tipos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.tipo-card {
+  background: white;
+  border: 1.5px solid var(--borda);
+  border-radius: var(--raio-xl);
+  padding: 36px 28px;
+  transition: all 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Badge "Mais Popular" no card em destaque */
+.tipo-card.destaque {
+  border-color: var(--primaria);
+  box-shadow: 0 8px 32px rgba(224, 91, 30, 0.803);
+}
+
+.badge-popular {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--primaria);
+  color: white;
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: 100px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.tipo-card:hover {
+  transform: translateY(-6px);
+  box-shadow:  0 8px 32px rgba(224, 91, 30, 0.803);
+  border-color: var(--primaria);
+}
+
+/* Caixa do ícone */
+.tipo-icone {
+  width: 60px;
+  height: 60px;
+  border-radius: var(--raio-lg);
+  background: var(--primaria-clara);
+  color: var(--primaria);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 22px;
+}
+
+.tipo-nome {
+  font-size: 1.15rem;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.tipo-desc {
+  font-size: 0.875rem;
+  color: var(--texto-suave);
+  line-height: 1.65;
+  margin-bottom: 24px;
+}
+
+/* Linha da taxa de juro */
+.tipo-taxa-linha {
+  display: flex;
+  align-items: baseline;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.taxa-num {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--primaria);
+  font-family: var(--fonte-mono);
+}
+
+.taxa-unidade {
+  font-size: 0.85rem;
+  color: var(--texto-suave);
+}
+
+.tipo-info-extra {
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+  margin-bottom: 24px;
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--borda);
+}
+
+/* Lista de características do produto */
+.tipo-features {
+  margin-bottom: 28px;
+}
+
+.tipo-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  color: var(--texto-secundario);
+  margin-bottom: 8px;
+}
+
+.tipo-feature i {
+  color: var(--sucesso);
+  font-size: 16px;
+  flex-shrink: 0;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO INFORMAÇÕES IMPORTANTES (Documentos e requisitos)
+   ---------------------------------------------------------------- */
+
+/* Abas para alternar entre categorias */
+.info-abas {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.info-aba {
+  padding: 10px 24px;
+  border-radius: 100px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--borda-forte);
+  background: white;
+  color: var(--texto-secundario);
+  transition: all 0.2s;
+  font-family: var(--fonte);
+  
+}
+
+.info-aba:hover {
+  border-color: var(--primaria);
+  color: var(--primaria);
+}
+
+/* Aba seleccionada */
+.info-aba.activa {
+  background: var(--primaria);
+  border-color: var(--primaria);
+  color: white;
+}
+
+/* Painel de conteúdo de cada aba */
+.info-painel {
+  display: none;              /* Escondido por padrão */
+  animation: fadeIn 0.3s ease; /* Animação ao aparecer */
+}
+
+/* Painel activo — visível */
+.info-painel.activo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* Animação de aparecer suavemente */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+/* Card de documento ou requisito */
+.info-card {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  padding: 20px;
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.info-card-icone {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--raio);
+  background: var(--primaria-clara);
+  color: var(--primaria);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.info-card-titulo {
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.info-card-desc {
+  font-size: 0.8rem;
+  color: var(--texto-suave);
+  line-height: 1.5;
+}
+
+
+
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO DEPOIMENTOS
+   ---------------------------------------------------------------- */
+
+.depoimentos-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  
+}
+
+.depoimento-card {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  padding: 28px;
+  transition: all 0.2s;
+  
+}
+
+.depoimento-card:hover {
+  transform: translateY(-3px);
+  
+}
+
+/* Estrelas de avaliação */
+.estrelas {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 16px;
+  color: #F5A623;   /* Amarelo dourado */
+  font-size: 16px;
+}
+
+/* Texto do depoimento */
+.depoimento-texto {
+  font-size: 0.9rem;
+  line-height: 1.7;
+  color: var(--texto-secundario);
+  margin-bottom: 20px;
+  font-style: italic;
+}
+
+/* Linha do autor */
+.depoimento-autor {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Avatar com iniciais */
+.autor-avatar {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--primaria-clara);
+  color: var(--primaria);
+  font-size: 0.85rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.autor-nome {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--texto-primario);
+}
+
+.autor-cargo {
+  font-size: 0.78rem;
+  color: var(--texto-suave);
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO FAQ
+   Perguntas e respostas com acordeão
+   ---------------------------------------------------------------- */
+
+.faq-wrapper {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Item individual do FAQ */
+.faq-item {
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-lg);
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.faq-item.aberto {
+  border-color: var(--primaria);
+}
+
+/* Cabeçalho da pergunta (clicável) */
+.faq-pergunta {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 22px;
+  background: white;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  font-family: var(--fonte);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--texto-primario);
+  transition: background 0.15s;
+}
+
+.faq-pergunta:hover {
+  background: var(--fundo);
+}
+
+/* Ícone "+" ou "-" no lado direito */
+.faq-icone {
+  font-size: 22px;
+  color: var(--primaria);
+  flex-shrink: 0;
+  transition: transform 0.3s; /* Roda suavemente */
+}
+
+/* Quando aberto, o ícone roda 45 graus (fica um "X") */
+.faq-item.aberto .faq-icone {
+  transform: rotate(45deg);
+}
+
+/* Resposta — escondida por padrão */
+.faq-resposta {
+  max-height: 0;              /* Altura zero = escondido */
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  background: white;
+  font-size: 0.875rem;
+  color: var(--texto-secundario);
+  line-height: 1.7;
+  padding: 0 22px;
+}
+
+/* Quando aberto, a resposta expande */
+.faq-item.aberto .faq-resposta {
+  max-height: 300px;          /* Altura máxima ao expandir */
+  padding: 0 22px 18px;
+}
+
+
+/* ----------------------------------------------------------------
+   SECÇÃO CONTACTO
+   ---------------------------------------------------------------- */
+
+.contacto-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  gap: 64px;
+  align-items: start;
+}
+
+/* Card de cada canal de contacto */
+.contacto-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 28px;
+}
+
+.contacto-icone {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--raio-lg);
+  background: var(--primaria-clara);
+  color: var(--primaria);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.contacto-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--texto-suave);
+  margin-bottom: 4px;
+}
+
+.contacto-valor {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--texto-primario);
+}
+
+/* Formulário de contacto */
+.contacto-form {
+  background: white;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-xl);
+  padding: 36px;
+  box-shadow: var(--sombra-sm);
+}
+
+.contacto-form h3 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 24px;
+}
+
+
+/* ----------------------------------------------------------------
+   RODAPÉ
+   ---------------------------------------------------------------- */
+
+.rodape {
+  background: #111111;        /* Preto quase total */
+  color: rgba(255, 255, 255, 0.5);
+  padding: 64px 0 32px;
+}
+
+.rodape-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr 1fr 1fr;
+  gap: 48px;
+  margin-bottom: 48px;
+}
+
+.rodape-logo {
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.rodape-logo span {
+  color: var(--primaria);
+}
+
+.rodape p {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  max-width: 260px;
+}
+
+.rodape h4 {
+  color: white;
+  font-size: 0.875rem;
+  font-weight: 700;
+  margin-bottom: 18px;
+}
+
+.rodape a {
+  display: block;
+  color: rgba(255, 255, 255, 0.45);
+  font-size: 0.875rem;
+  margin-bottom: 10px;
+  transition: color 0.15s;
+  text-decoration: none;
+}
+
+.rodape a:hover {
+  color: white;
+}
+
+.rodape-linha {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.8rem;
+}
+
+/* Redes sociais no rodapé */
+.redes-sociais {
+  display: flex;
+  gap: 12px;
+}
+
+.rede-social {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  transition: all 0.2s;
+  text-decoration: none;
+}
+
+.rede-social:hover {
+  background: var(--primaria);
+  color: white;
+}
+
+
+/* ----------------------------------------------------------------
+   RESPONSIVIDADE
+   ---------------------------------------------------------------- */
+
+@media (max-width: 1024px) {
+  .hero-titulo      { font-size: 2.6rem; }
+  .beneficios-grid  { grid-template-columns: repeat(2, 1fr); }
+  .passos-wrapper   { grid-template-columns: repeat(2, 1fr); }
+  .passos-wrapper::before { display: none; }
+  .tipos-grid       { grid-template-columns: repeat(2, 1fr); }
+  .sobre-layout     { grid-template-columns: 1fr; gap: 40px; }
+  .depoimentos-grid { grid-template-columns: repeat(2, 1fr); }
+  .rodape-grid      { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .nav-links        { display: none; }
+  .hero-titulo      { font-size: 2rem; }
+  .hero-stats       { gap: 28px; }
+  .secao            { padding: 64px 0; }
+  .secao-titulo     { font-size: 1.7rem; }
+  .beneficios-grid  { grid-template-columns: 1fr; }
+  .tipos-grid       { grid-template-columns: 1fr; }
+  .depoimentos-grid { grid-template-columns: 1fr; }
+  .contacto-layout  { grid-template-columns: 1fr; }
+  .rodape-grid      { grid-template-columns: 1fr; gap: 32px; }
+  .info-painel.activo { grid-template-columns: 1fr; }
+  .rodape-linha     { flex-direction: column; gap: 16px; text-align: center; }
+}

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pt">
+<!--
+  admin/dashboard.html — Dashboard do Administrador
+  Está dentro de admin/ por isso todos os paths usam "../"
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Admin — CréditoMZ</title>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/admin.css">
+</head>
+
+<body class="dashboard-body">
+
+  <!-- ============================================================
+       SIDEBAR
+       ============================================================ -->
+  <aside class="sidebar">
+
+    <div class="sidebar-logo">
+      <div class="nome-sistema">CréditoMZ</div>
+      <div class="subtitulo">Administrador</div>
+    </div>
+
+    <nav class="sidebar-nav">
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Sistema</div>
+
+        <a href="dashboard.html" class="nav-item activo">
+          <i class="ti ti-settings"></i>
+          Gestão do Sistema
+        </a>
+      </div>
+
+      <div class="nav-grupo">
+        <div class="nav-grupo-titulo">Conta</div>
+
+        <a href="#" class="nav-item">
+          <i class="ti ti-user"></i>
+          Meu Perfil
+        </a>
+      </div>
+
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="sidebar-usuario">
+        <div class="avatar" id="avatar-iniciais">--</div>
+        <div style="flex:1; min-width:0">
+          <div class="texto-sm" style="font-weight:600" id="nome-usuario">
+            A carregar...
+          </div>
+          <div class="texto-xs texto-suave" id="perfil-usuario">
+            Administrador
+          </div>
+        </div>
+        <button id="btn-logout" class="btn-fantasma btn-sm"
+          style="padding:6px; border:none">
+          <i class="ti ti-logout"></i>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+
+  <!-- ============================================================
+       CONTEÚDO PRINCIPAL
+       ============================================================ -->
+  <main class="conteudo-principal">
+
+    <div class="pagina-header flex-entre">
+      <div>
+        <h1 class="pagina-titulo">Gestão do Sistema</h1>
+        <p class="pagina-subtitulo">
+          Gerencie utilizadores e acompanhe as estatísticas
+        </p>
+      </div>
+    </div>
+
+    <!-- Cards de resumo -->
+    <div class="resumo-grid">
+
+      <div class="card-metrica">
+        <div class="metrica-label">Utilizadores Activos</div>
+        <div class="metrica-valor" id="resumo-users">0</div>
+        <div class="metrica-sub">Total no sistema</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Clientes</div>
+        <div class="metrica-valor" id="resumo-clientes">0</div>
+        <div class="metrica-sub">Contas de clientes</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Total de Pedidos</div>
+        <div class="metrica-valor" id="resumo-pedidos">0</div>
+        <div class="metrica-sub">Desde o início</div>
+      </div>
+
+      <div class="card-metrica">
+        <div class="metrica-label">Volume em Carteira</div>
+        <div class="metrica-valor" id="resumo-volume">0 MT</div>
+        <div class="metrica-sub">Créditos activos</div>
+      </div>
+
+    </div>
+
+    <!-- Abas: Utilizadores / Relatórios -->
+    <div class="admin-abas">
+      <button class="admin-aba activa" data-painel="painel-utilizadores">
+        <i class="ti ti-users"></i>
+        Utilizadores
+      </button>
+      <button class="admin-aba" data-painel="painel-relatorios">
+        <i class="ti ti-chart-bar"></i>
+        Relatórios
+      </button>
+    </div>
+
+
+    <!-- ======================================================
+         PAINEL: UTILIZADORES
+         ====================================================== -->
+    <div class="admin-painel activo" id="painel-utilizadores">
+
+      <div class="utilizadores-header">
+        <span class="utilizadores-titulo">Todos os Utilizadores</span>
+        <button class="btn btn-primario" id="btn-criar-usuario">
+          <i class="ti ti-user-plus"></i>
+          Criar Utilizador
+        </button>
+      </div>
+
+      <!-- Grelha de cards de utilizadores — preenchida pelo JS -->
+      <div class="utilizadores-grid" id="lista-utilizadores">
+      </div>
+
+    </div>
+
+
+    <!-- ======================================================
+         PAINEL: RELATÓRIOS
+         ====================================================== -->
+    <div class="admin-painel" id="painel-relatorios">
+
+      <div class="relatorios-grid">
+
+        <!-- Relatório 1: Pedidos por status -->
+        <div class="relatorio-card">
+          <div class="relatorio-titulo">
+            <i class="ti ti-chart-pie"></i>
+            Pedidos por Estado
+          </div>
+
+          <div class="relatorio-linha">
+            <span class="relatorio-linha-label">
+              <span class="ponto-status ponto-pendente"></span>
+              Pendentes
+            </span>
+            <span class="relatorio-linha-valor" id="rel-pendente">0</span>
+          </div>
+          <div class="relatorio-linha">
+            <span class="relatorio-linha-label">
+              <span class="ponto-status ponto-analise"></span>
+              Em Análise
+            </span>
+            <span class="relatorio-linha-valor" id="rel-analise">0</span>
+          </div>
+          <div class="relatorio-linha">
+            <span class="relatorio-linha-label">
+              <span class="ponto-status ponto-aprovado"></span>
+              Aprovados
+            </span>
+            <span class="relatorio-linha-valor" id="rel-aprovado">0</span>
+          </div>
+          <div class="relatorio-linha">
+            <span class="relatorio-linha-label">
+              <span class="ponto-status ponto-rejeitado"></span>
+              Rejeitados
+            </span>
+            <span class="relatorio-linha-valor" id="rel-rejeitado">0</span>
+          </div>
+          <div class="relatorio-linha">
+            <span class="relatorio-linha-label">
+              <span class="ponto-status ponto-ativo"></span>
+              Activos
+            </span>
+            <span class="relatorio-linha-valor" id="rel-ativo">0</span>
+          </div>
+          <div class="relatorio-linha">
+            <span class="relatorio-linha-label">
+              <span class="ponto-status ponto-quitado"></span>
+              Quitados
+            </span>
+            <span class="relatorio-linha-valor" id="rel-quitado">0</span>
+          </div>
+        </div>
+
+        <!-- Relatório 2: Volume por tipo de crédito -->
+        <div class="relatorio-card">
+          <div class="relatorio-titulo">
+            <i class="ti ti-credit-card"></i>
+            Volume por Tipo de Crédito
+          </div>
+          <div id="rel-tipos">
+            <!-- Preenchido pelo js/admin.js -->
+          </div>
+        </div>
+
+        <!-- Relatório 3: Utilizadores por perfil -->
+        <div class="relatorio-card">
+          <div class="relatorio-titulo">
+            <i class="ti ti-users"></i>
+            Utilizadores por Perfil
+          </div>
+          <div id="rel-perfis">
+            <!-- Preenchido pelo js/admin.js -->
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+
+  <!-- ============================================================
+       MODAL: CRIAR UTILIZADOR
+       ============================================================ -->
+  <div class="modal-overlay" id="modal-criar">
+    <div class="modal">
+
+      <div class="modal-header">
+        <h3 class="modal-titulo">Criar Novo Utilizador</h3>
+        <button class="modal-fechar" id="btn-fechar-criar">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+
+      <!-- Alerta de erro/sucesso -->
+      <div id="alerta-modal" style="display:none"></div>
+
+      <!-- Selecção de perfil -->
+      <div class="campo-grupo">
+        <label>Perfil do utilizador</label>
+        <div class="criar-perfil-opcoes">
+
+          <div class="perfil-opcao" data-perfil="funcionario">
+            <i class="ti ti-user-cog"></i>
+            <span>Funcionário</span>
+          </div>
+
+          <div class="perfil-opcao seleccionado" data-perfil="funcionario">
+            <i class="ti ti-user-star"></i>
+            <span>Gerente</span>
+          </div>
+
+          <div class="perfil-opcao" data-perfil="admin">
+            <i class="ti ti-shield-check"></i>
+            <span>Admin</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Dados do utilizador -->
+      <div class="campo-grupo">
+        <label for="criar-nome">Nome completo</label>
+        <input type="text" id="criar-nome" class="campo-grupo"
+          style="width:100%; padding:10px 14px; border:1px solid var(--borda-forte);
+                 border-radius:var(--raio); font-family:var(--fonte);
+                 font-size:0.9rem; outline:none"
+          placeholder="Nome do utilizador">
+      </div>
+
+      <div class="campo-grupo">
+        <label for="criar-email">Email</label>
+        <input type="email" id="criar-email"
+          style="width:100%; padding:10px 14px; border:1px solid var(--borda-forte);
+                 border-radius:var(--raio); font-family:var(--fonte);
+                 font-size:0.9rem; outline:none"
+          placeholder="email@empresa.com">
+      </div>
+
+      <div class="campo-grupo">
+        <label for="criar-senha">Senha inicial</label>
+        <input type="password" id="criar-senha"
+          style="width:100%; padding:10px 14px; border:1px solid var(--borda-forte);
+                 border-radius:var(--raio); font-family:var(--fonte);
+                 font-size:0.9rem; outline:none"
+          placeholder="Mínimo 6 caracteres">
+      </div>
+
+      <button class="btn btn-primario btn-bloco btn-lg" id="btn-submeter-criar">
+        <i class="ti ti-user-plus"></i>
+        Criar Utilizador
+      </button>
+
+    </div>
+  </div>
+
+
+  <!-- ============================================================
+       MODAL: CONFIRMAR DESACTIVAÇÃO
+       ============================================================ -->
+  <div class="modal-overlay" id="modal-confirmar">
+    <div class="modal" style="max-width:420px">
+
+      <div class="modal-header">
+        <h3 class="modal-titulo">Confirmar Desactivação</h3>
+        <button class="modal-fechar" id="btn-fechar-confirmar">
+          <i class="ti ti-x"></i>
+        </button>
+      </div>
+
+      <div class="modal-confirmar-remocao">
+        <i class="ti ti-user-off"></i>
+        <h3>Desactivar utilizador?</h3>
+        <p>
+          Tem a certeza que quer desactivar
+          <strong id="confirmar-nome"></strong>?
+          O utilizador não conseguirá fazer login mas os dados serão mantidos.
+        </p>
+
+        <div class="confirmar-botoes">
+          <button class="btn btn-fantasma" id="btn-cancelar-remocao">
+            Cancelar
+          </button>
+          <button class="btn btn-perigo" id="btn-confirmar-desativar">
+            <i class="ti ti-user-off"></i>
+            Desactivar
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <script src="../js/db.js"></script>
+  <script src="../js/auth.js"></script>
+  <script src="../js/admin.js"></script>
+
+</body>
+</html>

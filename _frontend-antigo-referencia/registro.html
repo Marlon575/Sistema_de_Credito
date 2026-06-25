@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="pt">
+<!--
+  registro.html — Página de Registo de novo cliente
+  CORRIGIDO: removido o <style> inline grande,
+  movido para css/registro.css
+-->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Criar Conta — CréditoMZ</title>
+
+  <link rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css">
+
+  <!-- 3 ficheiros CSS: globais, autenticação, e específico do registo -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/registro.css">
+</head>
+
+<body class="auth-pagina">
+
+  <div class="auth-bg" style="background-image:
+    url('https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=1920&q=80')">
+  </div>
+
+  <div class="auth-overlay"></div>
+  <div class="auth-luz-1"></div>
+  <div class="auth-luz-2"></div>
+
+  <div class="auth-wrapper registro">
+
+    <div class="auth-esquerda">
+
+      <a href="index.html" class="auth-logo">
+        Crédito<span>MZ</span>
+      </a>
+
+      <div class="auth-esquerda-conteudo">
+
+        <div class="auth-icone-grande">
+          <i class="ti ti-rocket"></i>
+        </div>
+
+        <h2>Comece a sua jornada financeira hoje</h2>
+        <p>
+          Crie a sua conta gratuita e tenha acesso imediato ao simulador,
+          ao pedido de crédito online e ao acompanhamento em tempo real.
+        </p>
+
+        <div class="auth-features">
+
+          <div class="auth-feature">
+            <div class="auth-feature-icone"><i class="ti ti-check"></i></div>
+            Registo gratuito e sem compromisso
+          </div>
+
+          <div class="auth-feature">
+            <div class="auth-feature-icone"><i class="ti ti-check"></i></div>
+            Resposta ao seu pedido em até 48 horas
+          </div>
+
+          <div class="auth-feature">
+            <div class="auth-feature-icone"><i class="ti ti-check"></i></div>
+            Dados protegidos e tratados com confidencialidade
+          </div>
+
+          <div class="auth-feature">
+            <div class="auth-feature-icone"><i class="ti ti-check"></i></div>
+            3 tipos de crédito à sua escolha
+          </div>
+
+        </div>
+      </div>
+
+      <div class="auth-esquerda-rodape">
+        © 2024 CréditoMZ · Todos os direitos reservados
+      </div>
+
+    </div>
+
+    <div class="auth-direita scroll">
+
+      <div class="auth-form-header">
+        <div class="auth-form-tag">
+          <i class="ti ti-user-plus"></i>
+          Conta gratuita
+        </div>
+        <h1 class="auth-form-titulo">Criar a sua conta</h1>
+        <p class="auth-form-sub">
+          Preencha os seus dados para começar a usar a plataforma.
+        </p>
+      </div>
+
+      <div class="auth-alerta" id="registro-alerta"></div>
+
+      <form id="form-registro" novalidate>
+
+        <div class="auth-campo">
+          <label for="reg-nome">Nome completo</label>
+          <div class="auth-input-wrapper">
+            <i class="ti ti-user auth-input-icone"></i>
+            <input type="text" id="reg-nome" class="auth-input"
+              placeholder="O seu nome completo" required>
+          </div>
+        </div>
+
+        <div class="auth-campo">
+          <label for="reg-email">Email</label>
+          <div class="auth-input-wrapper">
+            <i class="ti ti-mail auth-input-icone"></i>
+            <input type="email" id="reg-email" class="auth-input"
+              placeholder="o.seu@email.com" autocomplete="email" required>
+          </div>
+        </div>
+
+        <div class="auth-campo-grid">
+
+          <div class="auth-campo">
+            <label for="reg-bi">Número de BI</label>
+            <div class="auth-input-wrapper">
+              <i class="ti ti-id auth-input-icone"></i>
+              <input type="text" id="reg-bi" class="auth-input"
+                placeholder="110100000000A" required>
+            </div>
+          </div>
+
+          <div class="auth-campo">
+            <label for="reg-telefone">Telefone</label>
+            <div class="auth-input-wrapper">
+              <i class="ti ti-phone auth-input-icone"></i>
+              <input type="tel" id="reg-telefone" class="auth-input"
+                placeholder="84 000 0000" required>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="auth-campo">
+          <label for="reg-endereco">Endereço (opcional)</label>
+          <div class="auth-input-wrapper">
+            <i class="ti ti-map-pin auth-input-icone"></i>
+            <input type="text" id="reg-endereco" class="auth-input"
+              placeholder="Bairro, Cidade">
+          </div>
+        </div>
+
+        <div class="auth-campo-grid">
+
+          <div class="auth-campo">
+            <label for="reg-rendimento">Rendimento mensal (MT)</label>
+            <div class="auth-input-wrapper">
+              <i class="ti ti-coin auth-input-icone"></i>
+              <input type="number" id="reg-rendimento" class="auth-input"
+                placeholder="45000" min="0" required>
+            </div>
+          </div>
+
+          <div class="auth-campo">
+            <label for="reg-emprego">Tipo de emprego</label>
+            <div class="auth-input-wrapper">
+              <i class="ti ti-briefcase auth-input-icone"></i>
+              <select id="reg-emprego" class="auth-input select-com-icone" required>
+                <option value="">Seleccione...</option>
+                <option value="publico">Funcionário Público</option>
+                <option value="privado">Funcionário Privado</option>
+                <option value="empresario">Empresário / Autónomo</option>
+                <option value="outro">Outro</option>
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="auth-campo">
+          <label for="reg-empresa">Entidade empregadora (opcional)</label>
+          <div class="auth-input-wrapper">
+            <i class="ti ti-building auth-input-icone"></i>
+            <input type="text" id="reg-empresa" class="auth-input"
+              placeholder="Nome da empresa ou instituição">
+          </div>
+        </div>
+
+        <div class="auth-campo">
+          <label for="reg-senha">Senha</label>
+          <div class="auth-input-wrapper">
+            <i class="ti ti-lock auth-input-icone"></i>
+            <input type="password" id="reg-senha" class="auth-input"
+              placeholder="Mínimo 6 caracteres"
+              autocomplete="new-password" required>
+            <button type="button" id="btn-mostrar-senha-1"
+              class="auth-mostrar-senha" aria-label="Mostrar senha">
+              <i class="ti ti-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="forca-senha-wrapper">
+          <div class="forca-senha-track">
+            <div id="forca-senha-barra"></div>
+          </div>
+          <span id="forca-senha-texto" class="forca-senha-texto"></span>
+        </div>
+
+        <div class="auth-campo">
+          <label for="reg-confirmar-senha">Confirmar senha</label>
+          <div class="auth-input-wrapper">
+            <i class="ti ti-lock auth-input-icone"></i>
+            <input type="password" id="reg-confirmar-senha" class="auth-input"
+              placeholder="Repita a senha"
+              autocomplete="new-password" required>
+            <button type="button" id="btn-mostrar-senha-2"
+              class="auth-mostrar-senha" aria-label="Mostrar senha">
+              <i class="ti ti-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="auth-termos">
+          <input type="checkbox" id="reg-termos">
+          <label for="reg-termos">
+            Li e aceito os
+            <a href="#">Termos e Condições</a> e a
+            <a href="#">Política de Privacidade</a> do CréditoMZ.
+          </label>
+        </div>
+
+        <button type="submit" id="btn-registro" class="btn-auth">
+          <i class="ti ti-user-plus"></i>
+          Criar Conta
+        </button>
+
+      </form>
+
+      <div class="auth-link-alterno">
+        Já tem conta?
+        <a href="login.html">Entrar</a>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/registro.js"></script>
+
+</body>
+</html>
