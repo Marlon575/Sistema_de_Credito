@@ -1,36 +1,34 @@
 {
-  // Este ficheiro configura como o TypeScript traduz o nosso código (.ts)
-  // para JavaScript puro (.js), que é o que o Node.js realmente executa.
   "compilerOptions": {
-    // ---- Onde está o código e onde vai o resultado traduzido ----
-    "rootDir": "./src",        // a nossa pasta de código fonte TypeScript
-    "outDir": "./dist",        // pasta onde o JavaScript traduzido é guardado
+    // ---- Onde vai o resultado traduzido (só para build de produção) ----
+    "outDir": "./dist",
 
     // ---- Que versão de JavaScript gerar ----
-    "target": "ES2022",        // versão moderna de JavaScript, suportada pelo Node atual
-    "module": "CommonJS",      // sistema de módulos usado pelo Node.js (require/exports)
-    "lib": ["ES2022"],         // funcionalidades de JavaScript disponíveis para usar
-    "moduleResolution": "Node10",
+    "target": "ES2022",
+    "module": "CommonJS",
+    "lib": ["ES2022"],
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
 
     // ---- Regras de rigor (evitam erros comuns) ----
-    "strict": true,                      // ativa todas as verificações rigorosas de tipos
-    "noImplicitAny": true,               // proíbe variáveis sem tipo definido (nunca "any" escondido)
-    "strictNullChecks": true,            // obriga a tratar valores que podem ser null/undefined
-    "noUnusedLocals": true,              // avisa se criares uma variável e nunca a usares
-    "noUnusedParameters": true,          // avisa se um parâmetro de função nunca for usado
-    "noImplicitReturns": true,           // obriga a que todos os caminhos de uma função retornem algo
-    "noFallthroughCasesInSwitch": true,  // evita esquecimentos de "break" em switch/case
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
 
     // ---- Outras opções úteis ----
-    "esModuleInterop": true,             // permite importar pacotes antigos com "import x from 'y'"
-    "skipLibCheck": true,                // não verifica tipos dentro das bibliotecas instaladas (mais rápido)
-    "forceConsistentCasingInFileNames": true, // evita erros de maiúsculas/minúsculas em nomes de ficheiros
-    "resolveJsonModule": true,           // permite importar ficheiros .json diretamente
-    "sourceMap": true                    // gera mapas para facilitar a depuração (debug)
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "sourceMap": true
   },
 
-  // Quais pastas o TypeScript deve "olhar" para traduzir
-  "include": ["src/**/*.ts"],
+  // Quais pastas o TypeScript deve incluir
+  "include": ["src/**/*.ts", "prisma/**/*.ts"],
 
   // Pastas que o TypeScript deve ignorar
   "exclude": ["node_modules", "dist"]
