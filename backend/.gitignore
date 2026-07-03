@@ -25,3 +25,6 @@ npm-debug.log*
 # Ficheiros gerados pelo sistema operativo
 .DS_Store
 Thumbs.db
+
+# Base de dados prisma
+prisma/migrations/schema.prisma 

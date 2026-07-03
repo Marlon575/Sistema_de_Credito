@@ -1,33 +1,19 @@
-// =============================================================
 // jwt.ts — Criação e verificação de tokens JWT
 //
-// JWT (JSON Web Token) é como um "crachá digital assinado":
-// contém informação (ex: o id e o perfil do utilizador) e uma
-// assinatura que prova que foi o NOSSO servidor que o criou,
-// e que ninguém o alterou pelo caminho.
-//
 // Temos dois tipos de token:
-//   - Access Token: dura pouco (15 min), enviado em quase todos
-//     os pedidos para provar "quem sou eu".
-//   - Refresh Token: dura mais (7 dias), serve só para gerar um
-//     novo Access Token quando o anterior expira.
-// =============================================================
+//- Access Token: dura pouco (15 min), enviado em quase todos os pedidos para provar "quem sou eu".
+//- Refresh Token: dura mais (7 dias), serve só para gerar um novo Access Token quando o anterior expira.
 
 import jwt from "jsonwebtoken";
 import { env } from "./env";
 
-// -------------------------------------------------------------
-// Esta é a informação que vamos guardar DENTRO do token.
-// Nunca colocamos a password aqui - só dados que identificam
-// o utilizador e o seu perfil (para sabermos que permissões tem).
-// -------------------------------------------------------------
 export interface PayloadToken {
   usuarioId: number;
   perfil: "ADMIN" | "GERENTE" | "FUNCIONARIO" | "CLIENTE";
 }
 
 /**
- * Cria um novo Access Token (dura pouco tempo, ex: 15 minutos).
+ * Cria um novo Access Token .
  * @param payload - dados do utilizador a incluir no token
  * @returns o token assinado, como texto (string)
  */
@@ -38,7 +24,7 @@ export function gerarAccessToken(payload: PayloadToken): string {
 }
 
 /**
- * Cria um novo Refresh Token (dura mais tempo, ex: 7 dias).
+ * Cria um novo Refresh Token .
  * @param payload - dados do utilizador a incluir no token
  * @returns o token assinado, como texto (string)
  */
