@@ -1,55 +1,23 @@
-// =============================================================
-// app.ts — Ponto de entrada do backend CréditoMZ
-//
-// Este ficheiro:
-//   1. Cria a aplicação Express (o "motor" que recebe pedidos HTTP)
-//   2. Configura middlewares globais (CORS, leitura de JSON, cookies)
-//   3. Define uma rota de teste para confirmar que o servidor está a funcionar
-//   4. Liga o servidor numa porta, para começar a aceitar pedidos
-//
-// Para arrancar o servidor em modo de desenvolvimento:
-//   npm run dev
-// =============================================================
+import express, { Request, Response } from "express"; // framework HTTP
+import cors from "cors"; // permite pedidos do frontend
+import cookieParser from "cookie-parser"; // permite ler cookies
+import { env } from "./config/env"; // variáveis de ambiente validadas
+import authRoutes from "./routes/auth.routes"; // rotas de autenticação
 
-import express, { Request, Response } from "express";
-import cors from "cors";
-import cookieParser from "cookie-parser";
-import { env } from "./config/env";
+const app = express(); // cria a aplicação Express
 
-// Cria a aplicação Express. É este objecto "app" que vai gerir
-// todos os pedidos que chegam ao nosso servidor.
-const app = express();
+// middlewares globais
+app.use(cors({
+  origin: env.FRONTEND_URL, // só aceita pedidos deste endereço
+  credentials: true, // permite cookies
+}));
+app.use(express.json()); // lê corpo dos pedidos em JSON
+app.use(cookieParser()); // lê cookies dos pedidos
 
-// -------------------------------------------------------------
-// MIDDLEWARES GLOBAIS
-// Middlewares são funções que correm ANTES dos nossos
-// controllers, para cada pedido que chega ao servidor.
-// -------------------------------------------------------------
+// rotas da API
+app.use("/api/auth", authRoutes); // todas as rotas de auth ficam em /api/auth/*
 
-// CORS: permite que o frontend (que corre num endereço diferente,
-// ex: http://localhost:5500) possa fazer pedidos a este backend.
-// Sem isto, o browser bloquearia os pedidos por segurança.
-app.use(
-  cors({
-    origin: env.FRONTEND_URL, // só aceita pedidos vindos deste endereço
-    credentials: true, // permite o envio de cookies (usados no refresh token)
-  })
-);
-
-// Permite que o Express entenda pedidos com corpo em formato JSON
-// (ex: quando o frontend envia { "email": "...", "senha": "..." })
-app.use(express.json());
-
-// Permite ler cookies enviados pelo browser (vamos usar isto para
-// o refresh token, guardado num cookie httpOnly por segurança).
-app.use(cookieParser());
-
-// -------------------------------------------------------------
-// ROTA DE TESTE (health check)
-// Serve para confirmar rapidamente que o servidor está "vivo".
-// Mais tarde vamos adicionar aqui as rotas reais (/api/auth,
-// /api/emprestimos, etc.), mas esta fica sempre disponível.
-// -------------------------------------------------------------
+// rota de teste — confirma que o servidor está vivo
 app.get("/api/health", (req: Request, res: Response) => {
   res.json({
     status: "ok",
@@ -59,11 +27,7 @@ app.get("/api/health", (req: Request, res: Response) => {
   });
 });
 
-// -------------------------------------------------------------
-// ARRANCAR O SERVIDOR
-// Diz ao Express para começar a "escutar" pedidos na porta
-// definida no .env (por defeito, 3000).
-// -------------------------------------------------------------
+// arranca o servidor na porta definida no .env
 app.listen(env.PORT, () => {
   console.log(`✓ Servidor CréditoMZ a correr em http://localhost:${env.PORT}`);
   console.log(`✓ Ambiente: ${env.NODE_ENV}`);
