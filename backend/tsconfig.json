@@ -1,16 +1,13 @@
 {
   "compilerOptions": {
-    // ---- Onde vai o resultado traduzido (só para build de produção) ----
     "outDir": "./dist",
-
-    // ---- Que versão de JavaScript gerar ----
     "target": "ES2022",
     "module": "CommonJS",
     "lib": ["ES2022"],
     "moduleResolution": "node",
     "ignoreDeprecations": "6.0",
+    "types": ["node", "jest"],
 
-    // ---- Regras de rigor (evitam erros comuns) ----
     "strict": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -19,7 +16,6 @@
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
 
-    // ---- Outras opções úteis ----
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
@@ -27,9 +23,6 @@
     "sourceMap": true
   },
 
-  // Quais pastas o TypeScript deve incluir
   "include": ["src/**/*.ts", "prisma/**/*.ts"],
-
-  // Pastas que o TypeScript deve ignorar
   "exclude": ["node_modules", "dist"]
 }
