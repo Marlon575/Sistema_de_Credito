@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";  //Para encriptar e comparar as passwords
 import {prisma} from  "../config/database"; 
 import { gerarAccessToken, gerarRefreshToken, verificarRefreshToken } from "../config/jwt";
 import type {LoginInput, RegistoInput} from "../validators/auth.validator"; //Os tipos de dados de entrada usados
-
+import { enviarEmailBoasVindas } from "./email.service"; // envio de email de boas-vindas
 
 // Devolver a pos um login ou refresh token bem sucedido
 export  interface RespostaAuth{
@@ -90,6 +90,9 @@ export async function registo(dados: RegistoInput): Promise<RespostaAuth>{
             emprego: dados.emprego,
         },
     });
+
+    // envia email de boas-vindas (não bloqueia o registo se o email falhar)
+    await enviarEmailBoasVindas(novoUsuario.email, novoUsuario.nome);
 
     const payload ={
         usuarioId: novoUsuario.id,
