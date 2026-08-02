@@ -1,6 +1,6 @@
 import { prisma } from "../config/database"; // ligação à base de dados
 import type { AtualizarTipoEmprestimoInput } from "../validators/emprestimo.validator"; // tipos de entrada
-
+import { enviarEmailAprovacao, enviarEmailRejeicao } from "./email.service";
 // -------------------------------------------------------------
 // TIPOS DE CRÉDITO — consulta e gestão (Admin)
 // -------------------------------------------------------------
@@ -333,7 +333,10 @@ export async function aprovarEmprestimo(
   gerenteId: number,
   gerenteNome: string
 ) {
-  const emprestimo = await prisma.emprestimo.findUnique({ where: { id: emprestimoId } });
+  const emprestimo = await prisma.emprestimo.findUnique({
+    where: { id: emprestimoId },
+    include: { cliente: true }, // inclui os dados do cliente, para enviarmos o email
+  });
 
   if (!emprestimo) {
     throw new Error("Pedido de empréstimo não encontrado.");
@@ -370,6 +373,14 @@ export async function aprovarEmprestimo(
     }),
   ]);
 
+  // envia email ao cliente (não bloqueia a aprovação se o email falhar)
+  await enviarEmailAprovacao(
+    emprestimo.cliente.email,
+    emprestimo.cliente.nome,
+    emprestimo.valorParcela,
+    emprestimo.prazo
+  );
+
   return emprestimoAtualizado;
 }
 
@@ -382,7 +393,10 @@ export async function rejeitarEmprestimo(
   gerenteId: number,
   gerenteNome: string
 ) {
-  const emprestimo = await prisma.emprestimo.findUnique({ where: { id: emprestimoId } });
+  const emprestimo = await prisma.emprestimo.findUnique({
+    where: { id: emprestimoId },
+    include: { cliente: true }, // inclui os dados do cliente, para enviarmos o email
+  });
 
   if (!emprestimo) {
     throw new Error("Pedido de empréstimo não encontrado.");
@@ -419,6 +433,9 @@ export async function rejeitarEmprestimo(
       },
     }),
   ]);
+
+  // envia email ao cliente (não bloqueia a rejeição se o email falhar)
+  await enviarEmailRejeicao(emprestimo.cliente.email, emprestimo.cliente.nome, motivo);
 
   return emprestimoAtualizado;
 }
