@@ -1,0 +1,28 @@
+{
+  "compilerOptions": {
+    // ---- Versão e módulos ----
+    "target": "ES2022", // versão moderna de JavaScript para browsers actuais
+    "module": "ESNext", // sistema de módulos moderno (usado nativamente pelo browser/Vite)
+    "moduleResolution": "bundler", // forma de resolução de módulos própria para bundlers como o Vite
+    "lib": ["ES2022", "DOM", "DOM.Iterable"], // inclui tipos do browser (document, window, etc.)
+
+    // ---- Regras de rigor (mesmas do backend, para consistência) ----
+    "strict": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+
+    // ---- Outras opções úteis ----
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true, // exigido pelo Vite, garante que cada ficheiro pode ser compilado isoladamente
+    "noEmit": true // o Vite trata da compilação, o tsc só verifica tipos (não gera ficheiros)
+  },
+
+  "include": ["src/**/*.ts"]
+}
